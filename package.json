@@ -4,14 +4,18 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "ios": "react-native run-ios --simulator='iPhone 12 Pro'",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "deleteDerivedData": "rm -rf ${HOME}/Library/Developer/Xcode/DerivedData/*"
   },
   "dependencies": {
+    "@react-navigation/native": "6.1.7",
     "react": "18.2.0",
-    "react-native": "0.71.8"
+    "react-native": "0.71.8",
+    "react-native-safe-area-context": "4.7.1",
+    "react-native-screens": "3.24.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
