@@ -5,6 +5,7 @@ import {SafeAreaView} from 'react-native';
 
 import {headerConfig} from 'config/native-config';
 import BottomTabNavigator from 'navigators/BottomTabNavigator';
+import {RootStackParamList} from 'types/navigation';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

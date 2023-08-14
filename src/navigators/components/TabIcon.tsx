@@ -1,17 +1,38 @@
 import {BottomTabKeyType} from 'navigators/BottomTabNavigator';
-import React from 'react';
+import React, {memo} from 'react';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import styled from 'styled-components/native';
+// import test from './test';
+
+import {Colors} from 'config/style-config';
 
 export interface TabIconProps {
   name: BottomTabKeyType;
   focused: boolean;
 }
 
+const homeIcon = ({color = 'currentColor'}: {color?: string}) => (
+  <FontAwesome5Icon color={color} name="list" size={20} />
+);
+
 export const TabIcon = ({name, focused}: TabIconProps) => {
   const Icon = {
-    Home: <FontAwesome5Icon name="list" size={20} />,
+    Home: homeIcon,
   }[name];
 
-  return <Block></Block>;
+  return (
+    <Block>
+      <Icon color={focused ? Colors.gray20 : '#C5CED6'} />
+    </Block>
+  );
 };
+
+const Block = styled.View`
+  position: relative;
+  width: 100%;
+  height: 44px;
+  justify-content: center;
+  align-items: center;
+`;
 
 export default memo(TabIcon);

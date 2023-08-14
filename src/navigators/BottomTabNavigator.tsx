@@ -2,6 +2,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React, {useMemo} from 'react';
 import HomeScreen from 'screens/HomeScreens';
 import {BottomTabParamList} from '../types/navigation';
+import TabIcon from './components/TabIcon';
 
 /**
  * NOTE: 이후 scanner 등 Tab 추가 설치시 추가
