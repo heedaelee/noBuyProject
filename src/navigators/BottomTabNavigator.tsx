@@ -1,6 +1,6 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React, {useMemo} from 'react';
-import HomeScreen from 'screens/HomeScreens';
+import HomeScreen from 'screens/HomeScreen';
 import {BottomTabParamList} from '../types/navigation';
 import TabIcon from './components/TabIcon';
 
@@ -40,6 +40,7 @@ const BottomTabNavigator = () => {
         headerShown: false,
       }}>
       {mainRoutes.map(route => {
+        console.log(route.component);
         return (
           <Tab.Screen
             key={`stack-${route.key}`}
@@ -56,6 +57,31 @@ const BottomTabNavigator = () => {
       })}
     </Tab.Navigator>
   );
+  // return (
+  //   <Tab.Navigator
+  //     initialRouteName={initialRouteName}
+  //     screenOptions={{
+  //       tabBarShowLabel: false,
+  //       headerShown: false,
+  //     }}>
+  //     {mainRoutes.map(route => {
+  //       console.log(route.component);
+  //       return (
+  //         <Tab.Screen
+  //           key={`stack-${route.key}`}
+  //           name={route.name}
+  //           component={route.component}
+  //           options={{
+  //             unmountOnBlur: true,
+  //             tabBarIcon: ({focused}) => (
+  //               <TabIcon name={route.key} focused={focused} />
+  //             ),
+  //           }}
+  //         />
+  //       );
+  //     })}
+  //   </Tab.Navigator>
+  // );
 };
 
 export default BottomTabNavigator;
