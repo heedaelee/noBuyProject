@@ -21,7 +21,7 @@ function App(): JSX.Element {
         <Stack.Screen
           name="BottomTabNavigator"
           component={BottomTabNavigator}
-          // options={{headerShown: false}}
+          options={{headerShown: false}}
         />
       </Stack.Navigator>
     </NavigationContainer>

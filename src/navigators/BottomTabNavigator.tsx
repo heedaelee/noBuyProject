@@ -37,7 +37,7 @@ const BottomTabNavigator = () => {
       initialRouteName={initialRouteName}
       screenOptions={{
         tabBarShowLabel: false,
-        headerShown: false,
+        headerShown: true,
       }}>
       {mainRoutes.map(route => {
         console.log(route.component);
@@ -57,31 +57,6 @@ const BottomTabNavigator = () => {
       })}
     </Tab.Navigator>
   );
-  // return (
-  //   <Tab.Navigator
-  //     initialRouteName={initialRouteName}
-  //     screenOptions={{
-  //       tabBarShowLabel: false,
-  //       headerShown: false,
-  //     }}>
-  //     {mainRoutes.map(route => {
-  //       console.log(route.component);
-  //       return (
-  //         <Tab.Screen
-  //           key={`stack-${route.key}`}
-  //           name={route.name}
-  //           component={route.component}
-  //           options={{
-  //             unmountOnBlur: true,
-  //             tabBarIcon: ({focused}) => (
-  //               <TabIcon name={route.key} focused={focused} />
-  //             ),
-  //           }}
-  //         />
-  //       );
-  //     })}
-  //   </Tab.Navigator>
-  // );
 };
 
 export default BottomTabNavigator;

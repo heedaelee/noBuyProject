@@ -5,6 +5,7 @@ import styled from 'styled-components/native';
 // import test from './test';
 
 import {Colors} from 'config/style-config';
+import {Text, View} from 'react-native';
 
 export interface TabIconProps {
   name: BottomTabKeyType;
@@ -12,7 +13,10 @@ export interface TabIconProps {
 }
 
 const homeIcon = ({color = 'currentColor'}: {color?: string}) => (
-  <FontAwesome5Icon color={color} name="list" size={20} />
+  <>
+    <FontAwesome5Icon color={color} name="home" size={20} />
+    <Text>홈</Text>
+  </>
 );
 
 export const TabIcon = ({name, focused}: TabIconProps) => {
