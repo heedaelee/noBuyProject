@@ -11,13 +11,13 @@ export interface HomeScreenProps extends RouteProps {}
 
 const HomeScreen = ({navigation, route}: HomeScreenProps) => {
   console.log('홈스크린');
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      ...headerConfig,
-      headerTitle: '홈',
-      headerTransparent: true,
-    });
-  }, [navigation]);
+  // useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     ...headerConfig,
+  //     headerTitle: '홈',
+  //     headerTransparent: true,
+  //   });
+  // }, [navigation]);
 
   return (
     <View style={styles.block}>

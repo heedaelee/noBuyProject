@@ -37,7 +37,7 @@ const BottomTabNavigator = () => {
       initialRouteName={initialRouteName}
       screenOptions={{
         tabBarShowLabel: false,
-        headerShown: true,
+        headerShown: false,
       }}>
       {mainRoutes.map(route => {
         console.log(route.component);
