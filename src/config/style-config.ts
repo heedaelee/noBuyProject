@@ -1,3 +1,5 @@
+import {StyleSheet} from 'react-native';
+
 export const Colors = {
   black: '#000',
   white: '#FFF',
@@ -41,3 +43,14 @@ export const ColorContents = {
   messageLine: '#6327FF',
   tooltipBg: '#393D40',
 };
+
+export const globalStyles = StyleSheet.create({
+  titleText: {
+    fontFamily: 'Cafe24Dangdanghae-v2.0',
+    color: 'black',
+    fontSize: 30,
+  },
+  /* paragraph: {
+    fontSize: 18,
+  }, */
+});
