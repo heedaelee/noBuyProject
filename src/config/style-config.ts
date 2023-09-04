@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 
 export const Colors = {
   black: '#000',
@@ -54,3 +54,6 @@ export const globalStyles = StyleSheet.create({
     fontSize: 18,
   }, */
 });
+
+export const _WIDTH = Dimensions.get('window').width;
+export const _HEIGHT = Dimensions.get('window').height;

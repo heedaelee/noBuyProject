@@ -1,10 +1,10 @@
-import React, {useLayoutEffect} from 'react';
+import React, {useEffect, useLayoutEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import type {HomeTabScreenProps} from 'types/navigation';
 
+import {CircleButton} from 'components/Button';
 import {headerConfig} from 'config/native-config';
 import {Colors, globalStyles} from 'config/style-config';
-import Config from 'react-native-config';
 
 type RouteProps = HomeTabScreenProps<'HomeScreen'>;
 
@@ -21,15 +21,22 @@ const HomeScreen = ({navigation, route}: HomeScreenProps) => {
     });
   }, [navigation]);
 
-  /* TODO: 글꼴 당당해 체 로 변경
-   */
+  useEffect(() => {}, []);
+
+  const goToAddBrand = () => {
+    navigation.navigate('AddBrandScreen');
+  };
 
   return (
     <View style={styles.block}>
       <View style={styles.titleView}>
-        <Text style={styles.titleText}>브랜드 리스트</Text>
-        <Text>url : {Config.API_URL}</Text>
+        <Text style={styles.titleText}>불매 브랜드 리스트</Text>
+        {/* <Text>url : {Config.API_URL}</Text> */}
       </View>
+      <View>
+        <Text>브랜드 리스트</Text>
+      </View>
+      <CircleButton onPress={goToAddBrand}>+</CircleButton>
     </View>
   );
 };

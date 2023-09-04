@@ -25,7 +25,7 @@ const BottomTabNavigator = () => {
     () => [
       {
         key: 'Home',
-        name: 'HomeScreen',
+        name: 'HomeNavigator',
         component: HomeScreen,
       },
     ],
