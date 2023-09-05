@@ -1,5 +1,12 @@
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
-import {NavigatorScreenParams} from '@react-navigation/native';
+import {
+  CompositeScreenProps,
+  NavigatorScreenParams,
+} from '@react-navigation/native';
+import {StackScreenProps} from '@react-navigation/stack';
+
+export type RootStackScreenProps<T extends keyof RootStackParamList> =
+  StackScreenProps<RootStackParamList, T>;
 
 /**
  * 전체 Stack에 포함된 스크린 목록과  파라미터를 정의하여야 합니다.
@@ -30,4 +37,7 @@ export type HomeTabParamList = {
 
 //BottomTabScreenProps 는 기본 api이다
 export type HomeTabScreenProps<T extends keyof HomeTabParamList> =
-  BottomTabScreenProps<HomeTabParamList, T>;
+  CompositeScreenProps<
+    BottomTabScreenProps<HomeTabParamList, T>,
+    RootStackScreenProps<keyof RootStackParamList>
+  >;

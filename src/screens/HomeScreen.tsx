@@ -1,17 +1,18 @@
 import React, {useEffect, useLayoutEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import type {HomeTabScreenProps} from 'types/navigation';
 
+import type {HomeTabScreenProps} from 'types/navigation';
+import {Colors, globalStyles} from 'config/style-config';
 import {CircleButton} from 'components/Button';
 import {headerConfig} from 'config/native-config';
-import {Colors, globalStyles} from 'config/style-config';
+import {useRouteLog} from 'hooks/use-routeLog';
 
 type RouteProps = HomeTabScreenProps<'HomeScreen'>;
 
 export interface HomeScreenProps extends RouteProps {}
 
 const HomeScreen = ({navigation, route}: HomeScreenProps) => {
-  console.log('홈스크린');
+  useRouteLog('홈스크린 이다');
   /* 헤더 삭제함.  */
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -34,7 +35,7 @@ const HomeScreen = ({navigation, route}: HomeScreenProps) => {
         {/* <Text>url : {Config.API_URL}</Text> */}
       </View>
       <View>
-        <Text>브랜드 리스트</Text>
+        <Text>예시 브랜드 리스트</Text>
       </View>
       <CircleButton onPress={goToAddBrand}>+</CircleButton>
     </View>
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   titleView: {
-    flex: 1,
+    // flex: 1,
     borderWidth: 1,
     borderColor: 'green',
     alignItems: 'center',
