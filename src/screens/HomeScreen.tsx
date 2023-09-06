@@ -14,13 +14,13 @@ export interface HomeScreenProps extends RouteProps {}
 const HomeScreen = ({navigation, route}: HomeScreenProps) => {
   useRouteLog('홈스크린 이다');
   /* 헤더 삭제함.  */
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      ...headerConfig,
-      headerTitle: '',
-      headerTransparent: true,
-    });
-  }, [navigation]);
+  // useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     ...headerConfig,
+  //     headerTitle: test,
+  //     headerTransparent: true,
+  //   });
+  // }, [navigation]);
 
   useEffect(() => {}, []);
 
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderWidth: 1,
     borderColor: 'red',
-    paddingTop: 50,
+    // paddingTop: 50,
     alignItems: 'center',
   },
   titleView: {

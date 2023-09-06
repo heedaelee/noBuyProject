@@ -5,6 +5,7 @@ import {Colors, globalStyles} from 'config/style-config';
 import {HomeTabScreenProps} from 'types/navigation';
 import {headerConfig} from 'config/native-config';
 import {useRouteLog} from 'hooks/use-routeLog';
+import {BackButton} from 'components/Headers';
 
 type RouteProps = HomeTabScreenProps<'AddBrandScreen'>;
 
@@ -15,9 +16,9 @@ const AddBrandScreen = ({navigation, route}: AddBrandScreenProps) => {
   /* 헤더 삭제함.  */
   useLayoutEffect(() => {
     navigation.setOptions({
-      ...headerConfig,
-      headerTitle: '',
-      headerTransparent: true,
+      headerLeft() {
+        return <BackButton />;
+      },
     });
   }, [navigation]);
 
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderWidth: 1,
     borderColor: 'red',
-    paddingTop: 50,
+    // paddingTop: 50,
     alignItems: 'center',
   },
   titleView: {
