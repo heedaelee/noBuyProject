@@ -12,7 +12,7 @@ export const Colors = {
   gray60: '#C0C6CC',
   gray70: '#DDE0E5',
   gray80: '#E6E9ED',
-  gray90: '#F4F6F9',
+  gray90: '#f8f8f8',
 };
 
 export const ColorBase = {
@@ -50,9 +50,13 @@ export const globalStyles = StyleSheet.create({
     color: 'black',
     fontSize: 30,
   },
-  /* paragraph: {
-    fontSize: 18,
-  }, */
+  mainBlock: {
+    flex: 1,
+    backgroundColor: Colors.gray90,
+    borderWidth: 1,
+    borderColor: 'red',
+    alignItems: 'center',
+  },
 });
 
 export const _WIDTH = Dimensions.get('window').width;

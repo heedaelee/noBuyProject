@@ -22,13 +22,13 @@ const HomeNavigator = ({}: HomeNavigatorProps) => {
       <Stack.Screen
         name="HomeScreen"
         component={HomeScreen}
-        options={{
-          headerStyle: {
-            zIndex: 100,
-            position: 'relative',
-            overflow: 'visible',
-          },
-        }}
+        // options={{
+        //   headerStyle: {
+        //     zIndex: 100,
+        //     position: 'relative',
+        //     overflow: 'visible',
+        //   },
+        // }}
       />
       <Stack.Screen name="AddBrandScreen" component={AddBrandScreen} />
     </Stack.Navigator>

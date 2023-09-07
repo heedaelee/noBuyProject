@@ -18,7 +18,7 @@ const CloseButton = ({color = 'black', onPress}) => {
   }
 
   return (
-    <Block>
+    <Block activeOpacity={0.7} onPress={onPress ? onPress : navigation.goBack}>
       <AntDesign color={color} name="close" size={20} />
     </Block>
   );

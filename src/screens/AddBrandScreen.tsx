@@ -33,22 +33,34 @@ const AddBrandScreen = ({navigation, route}: AddBrandScreenProps) => {
   );
 };
 
+const backgroundColor = '#ffffff';
+
 const styles = StyleSheet.create({
-  block: {
-    flex: 1,
-    backgroundColor: Colors.white,
-    borderWidth: 1,
-    borderColor: 'red',
-    // paddingTop: 50,
-    alignItems: 'center',
-  },
+  block: globalStyles.mainBlock,
+  //TODO: Content 박스 달아야함.
   titleView: {
-    // flex: 1,
-    borderWidth: 1,
-    borderColor: 'green',
+    marginTop: 20,
+    width: '70%',
+    padding: 8,
+    // borderWidth: 1,
+    // borderColor: 'green',
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 10,
+    elevation: 6,
+    backgroundColor: backgroundColor,
+    borderRadius: 20,
   },
   titleText: globalStyles.titleText,
+  inputWrapper: {
+    borderWidth: 1,
+    borderColor: 'black',
+  },
 });
 
 export default AddBrandScreen;

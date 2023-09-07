@@ -1,11 +1,10 @@
-import React, {useEffect, useLayoutEffect} from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-import type {HomeTabScreenProps} from 'types/navigation';
-import {Colors, globalStyles} from 'config/style-config';
 import {CircleButton} from 'components/Button';
-import {headerConfig} from 'config/native-config';
+import {globalStyles} from 'config/style-config';
 import {useRouteLog} from 'hooks/use-routeLog';
+import type {HomeTabScreenProps} from 'types/navigation';
 
 type RouteProps = HomeTabScreenProps<'HomeScreen'>;
 
@@ -43,14 +42,7 @@ const HomeScreen = ({navigation, route}: HomeScreenProps) => {
 };
 
 const styles = StyleSheet.create({
-  block: {
-    flex: 1,
-    backgroundColor: Colors.white,
-    borderWidth: 1,
-    borderColor: 'red',
-    // paddingTop: 50,
-    alignItems: 'center',
-  },
+  block: globalStyles.mainBlock,
   titleView: {
     // flex: 1,
     borderWidth: 1,
