@@ -1,6 +1,6 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React, {useMemo} from 'react';
-import HomeNavigator from './bottom-tab-stacks/HomeNavigator';
+import HomeScreen from 'screens/HomeScreen';
 import {BottomTabParamList} from '../types/navigation';
 import TabIcon from './components/TabIcon';
 
@@ -15,7 +15,7 @@ export type BottomTabKeyType = 'Home';
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 const BottomTabNavigator = () => {
-  const initialRouteName = 'HomeNavigator';
+  const initialRouteName = 'HomeScreen';
 
   const mainRoutes: {
     key: BottomTabKeyType;
@@ -25,8 +25,8 @@ const BottomTabNavigator = () => {
     () => [
       {
         key: 'Home',
-        name: 'HomeNavigator',
-        component: HomeNavigator,
+        name: 'HomeScreen',
+        component: HomeScreen,
       },
     ],
     [],
@@ -37,7 +37,7 @@ const BottomTabNavigator = () => {
       initialRouteName={initialRouteName}
       screenOptions={{
         tabBarShowLabel: false,
-        headerShown: false,
+        headerShown: true,
       }}>
       {mainRoutes.map(route => {
         console.log(route.component);
