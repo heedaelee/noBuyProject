@@ -43,12 +43,7 @@ const HomeScreen = ({navigation, route}: HomeScreenProps) => {
 
 const styles = StyleSheet.create({
   block: globalStyles.mainBlock,
-  titleView: {
-    // flex: 1,
-    borderWidth: 1,
-    borderColor: 'green',
-    alignItems: 'center',
-  },
+  titleView: globalStyles.titleView,
   titleText: globalStyles.titleText,
 });
 

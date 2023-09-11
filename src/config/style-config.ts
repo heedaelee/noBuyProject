@@ -44,6 +44,8 @@ export const ColorContents = {
   tooltipBg: '#393D40',
 };
 
+const backgroundColor = '#ffffff';
+
 export const globalStyles = StyleSheet.create({
   titleText: {
     fontFamily: 'Cafe24Dangdanghae-v2.0',
@@ -56,6 +58,24 @@ export const globalStyles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'red',
     alignItems: 'center',
+  },
+  titleView: {
+    marginTop: 20,
+    width: '80%',
+    padding: 8,
+    // borderWidth: 1,
+    // borderColor: 'green',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 10,
+    elevation: 6,
+    backgroundColor: backgroundColor,
+    borderRadius: 10,
   },
 });
 
