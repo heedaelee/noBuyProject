@@ -1,49 +1,54 @@
-import React, {useEffect} from 'react';
+import React, {useLayoutEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-
-import {CircleButton} from 'components/Button';
-import {globalStyles} from 'config/style-config';
-import {useRouteLog} from 'hooks/use-routeLog';
 import type {HomeTabScreenProps} from 'types/navigation';
+
+import {headerConfig} from 'config/native-config';
+import {Colors, globalStyles} from 'config/style-config';
+import Config from 'react-native-config';
 
 type RouteProps = HomeTabScreenProps<'HomeScreen'>;
 
 export interface HomeScreenProps extends RouteProps {}
 
 const HomeScreen = ({navigation, route}: HomeScreenProps) => {
-  useRouteLog('홈스크린 이다');
+  console.log('홈스크린');
   /* 헤더 삭제함.  */
-  // useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     ...headerConfig,
-  //     headerTitle: test,
-  //     headerTransparent: true,
-  //   });
-  // }, [navigation]);
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      ...headerConfig,
+      headerTitle: '',
+      headerTransparent: true,
+    });
+  }, [navigation]);
 
-  useEffect(() => {}, []);
-
-  const goToAddBrand = () => {
-    navigation.navigate('AddBrandScreen');
-  };
+  /* TODO: 글꼴 당당해 체 로 변경
+   */
 
   return (
     <View style={styles.block}>
       <View style={styles.titleView}>
-        <Text style={styles.titleText}>불매 브랜드 리스트</Text>
-        {/* <Text>url : {Config.API_URL}</Text> */}
+        <Text style={styles.titleText}>브랜드 리스트</Text>
+        <Text>url : {Config.API_URL}</Text>
       </View>
-      <View>
-        <Text>예시 브랜드 리스트</Text>
-      </View>
-      <CircleButton onPress={goToAddBrand}>+</CircleButton>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  block: globalStyles.mainBlock,
-  titleView: globalStyles.titleView,
+  block: {
+    flex: 1,
+    backgroundColor: Colors.white,
+    borderWidth: 1,
+    borderColor: 'red',
+    paddingTop: 50,
+    alignItems: 'center',
+  },
+  titleView: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: 'green',
+    alignItems: 'center',
+  },
   titleText: globalStyles.titleText,
 });
 

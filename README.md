@@ -55,7 +55,7 @@ yarn start
 yarn ios || yarn android
 ```
 
-### 폰트 (?)
+### 폰트 (TODO)
 ```shell
 ./assets/fonts 폴더에 폰트 파일 추가 (ttf, otf 확장자만 가능)
 npx react-native-assets
