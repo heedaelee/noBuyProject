@@ -1,11 +1,11 @@
-import React, {useEffect, useLayoutEffect} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, {useEffect, useLayoutEffect, useRef} from 'react';
+import {StyleSheet, Text, TextInput, View} from 'react-native';
+import {OutlinedTextField} from 'rn-material-ui-textfield';
 
-import {Colors, globalStyles} from 'config/style-config';
-import {HomeTabScreenProps} from 'types/navigation';
-import {headerConfig} from 'config/native-config';
-import {useRouteLog} from 'hooks/use-routeLog';
 import {BackButton} from 'components/Headers';
+import {globalStyles} from 'config/style-config';
+import {useRouteLog} from 'hooks/use-routeLog';
+import {HomeTabScreenProps} from 'types/navigation';
 
 type RouteProps = HomeTabScreenProps<'AddBrandScreen'>;
 
@@ -22,45 +22,50 @@ const AddBrandScreen = ({navigation, route}: AddBrandScreenProps) => {
     });
   }, [navigation]);
 
+  const fieldRef = useRef<any>(null);
+
   useEffect(() => {}, []);
+
+  /**
+   * 전송 함수
+   */
+  const onSubmit = () => {
+    let {current: field} = fieldRef;
+    field!! && console.log(` onSubmit함수값 : ${field.value()}`);
+  };
+
+  /**
+   * validation
+   */
+  const validationBrand = (text: string) => {
+    text!! && console.log(` vali브랜드 값 : ${text}`);
+    return text.replace(/[^+\d]/g, '');
+  };
 
   return (
     <View style={styles.block}>
-      <View style={styles.titleView}>
+      <View style={globalStyles.titleView}>
         <Text style={styles.titleText}>브랜드 추가</Text>
       </View>
+      <View style={styles.inputWrapper}></View>
+      <OutlinedTextField
+        label="phone123"
+        formatText={validationBrand}
+        keyboardType="phone-pad"
+        onSubmitEditing={onSubmit}
+        ref={fieldRef}
+        placeholder="testddf"
+        defaultValue={'eerer'}
+        lineWidth
+      />
     </View>
   );
 };
 
-const backgroundColor = '#ffffff';
-
 const styles = StyleSheet.create({
   block: globalStyles.mainBlock,
-  //TODO: Content 박스 달아야함.
-  titleView: {
-    marginTop: 20,
-    width: '70%',
-    padding: 8,
-    // borderWidth: 1,
-    // borderColor: 'green',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.27,
-    shadowRadius: 10,
-    elevation: 6,
-    backgroundColor: backgroundColor,
-    borderRadius: 20,
-  },
   titleText: globalStyles.titleText,
-  inputWrapper: {
-    borderWidth: 1,
-    borderColor: 'black',
-  },
+  inputWrapper: {...globalStyles.titleView, marginTop: 10, borderWidth: 1},
 });
 
 export default AddBrandScreen;
