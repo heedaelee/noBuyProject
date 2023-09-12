@@ -1,9 +1,13 @@
-import React, {useEffect, useLayoutEffect, useRef} from 'react';
-import {StyleSheet, Text, TextInput, View} from 'react-native';
-import {OutlinedTextField} from 'rn-material-ui-textfield';
-
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
+import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
 import {BackButton} from 'components/Headers';
-import {globalStyles} from 'config/style-config';
+import {Colors, _WIDTH, globalStyles} from 'config/style-config';
 import {useRouteLog} from 'hooks/use-routeLog';
 import {HomeTabScreenProps} from 'types/navigation';
 
@@ -22,42 +26,93 @@ const AddBrandScreen = ({navigation, route}: AddBrandScreenProps) => {
     });
   }, [navigation]);
 
-  const fieldRef = useRef<any>(null);
+  const [loading, setLoading] = useState(false);
+  const [brand, setBrand] = useState('');
+  const [reason, setReason] = useState('');
+  const brandRef = useRef<TextInput | null>(null);
+  const reasonRef = useRef<TextInput | null>(null);
 
   useEffect(() => {}, []);
 
   /**
-   * 전송 함수
+   * 브랜드 이름 입력시
    */
-  const onSubmit = () => {
-    let {current: field} = fieldRef;
-    field!! && console.log(` onSubmit함수값 : ${field.value()}`);
-  };
-
+  const onChangeBrand = useCallback((text: string) => {
+    setBrand(text.trim());
+  }, []);
   /**
-   * validation
+   * 등록 이유 입력시
    */
-  const validationBrand = (text: string) => {
-    text!! && console.log(` vali브랜드 값 : ${text}`);
-    return text.replace(/[^+\d]/g, '');
-  };
+  const onChangeReason = useCallback((text: string) => {
+    setReason(text.trim());
+  }, []);
+  /**
+   * 취소 버튼 클릭시
+   */
+  const goBack = useCallback(() => {
+    navigation.goBack();
+  }, [navigation]);
+  /**
+   * 등록 버튼 클릭시
+   */
+  const onSubmit = useCallback(() => {
+    //TODO: 구현 해야함
+    console.log('onSubmit 호출');
+
+    //객체 만들고, setAsyncStorage 하고, recoil에 넣기
+  }, []);
 
   return (
     <View style={styles.block}>
       <View style={globalStyles.titleView}>
         <Text style={styles.titleText}>브랜드 추가</Text>
       </View>
-      <View style={styles.inputWrapper}></View>
-      <OutlinedTextField
-        label="phone123"
-        formatText={validationBrand}
-        keyboardType="phone-pad"
-        onSubmitEditing={onSubmit}
-        ref={fieldRef}
-        placeholder="testddf"
-        defaultValue={'eerer'}
-        lineWidth
-      />
+      <View style={styles.inputWrapper}>
+        <TextInput
+          style={styles.textInput}
+          onChangeText={onChangeBrand}
+          placeholder="불매할 브랜드를 입력해주세요*"
+          placeholderTextColor="#666"
+          value={brand}
+          returnKeyType="next"
+          clearButtonMode="while-editing"
+          ref={brandRef}
+          onSubmitEditing={() => reasonRef.current?.focus()}
+          blurOnSubmit={false}
+        />
+        <TextInput
+          style={styles.textInput}
+          onChangeText={onChangeReason}
+          placeholder="등록 사유를 입력해주세요"
+          placeholderTextColor="#666"
+          value={reason}
+          returnKeyType="next"
+          clearButtonMode="while-editing"
+          ref={reasonRef}
+          onSubmitEditing={onSubmit}
+          blurOnSubmit={false}
+        />
+        <View style={styles.buttonWrapper}>
+          <Pressable
+            style={({pressed}) => [
+              {
+                backgroundColor: pressed ? Colors.gray60 : 'white',
+                marginRight: 10,
+              },
+              styles.button,
+            ]}
+            onPress={goBack}>
+            <Text style={styles.buttonText}>취소</Text>
+          </Pressable>
+          <Pressable
+            style={StyleSheet.compose(styles.button, styles.registrationButton)}
+            onPress={onSubmit}>
+            <Text style={{...styles.buttonText, color: Colors.white}}>
+              등록
+            </Text>
+          </Pressable>
+        </View>
+      </View>
     </View>
   );
 };
@@ -65,7 +120,51 @@ const AddBrandScreen = ({navigation, route}: AddBrandScreenProps) => {
 const styles = StyleSheet.create({
   block: globalStyles.mainBlock,
   titleText: globalStyles.titleText,
-  inputWrapper: {...globalStyles.titleView, marginTop: 10, borderWidth: 1},
+  inputWrapper: {
+    ...globalStyles.titleView,
+    marginTop: 10,
+  },
+  textInput: {
+    padding: 5,
+    paddingBottom: 0,
+    marginBottom: 10,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    fontSize: _WIDTH / 30,
+    width: '100%',
+  },
+  buttonWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginTop: 15,
+    marginBottom: 0,
+    width: '100%',
+    // borderWidth: 1,
+    // borderColor: 'green',
+    // width: '100%',
+    // height: 100,
+  },
+  button: {
+    paddingVertical: 9,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+  },
+  registrationButton: {
+    backgroundColor: '#3f51b5',
+    borderRadius: 4,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 10,
+    elevation: 6,
+  },
+  buttonText: {
+    fontSize: 15,
+    color: 'black',
+    fontFamily: 'Cafe24Dangdanghae-v2.0',
+  },
 });
 
 export default AddBrandScreen;
