@@ -69,6 +69,13 @@ Android - cd android && ./gradlew clean && cd ..
 iOS - cd ios && pod deintegrate && pod cache clean -all && rm -rf Podfile.lock && cd ..
 ```
 
+## GIT convention
+feat: 🐲 새로운 기능을 추가
+fix: 🐒 버그 수정
+refactor: ♻️ 코드 리팩토링
+Design: 💄 CSS 등 사용자 UI 디자인 변경
+Docs: 📜 문서 및 코멘트 수정 
+
 ## GIT Flow (for Ex)
   
 ```mermaid
