@@ -1,3 +1,6 @@
+import {BackButton} from 'components/Headers';
+import {Colors, _WIDTH, globalStyles} from 'config/style-config';
+import {useRouteLog} from 'hooks/use-routeLog';
 import React, {
   useCallback,
   useEffect,
@@ -5,10 +8,16 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
-import {BackButton} from 'components/Headers';
-import {Colors, _WIDTH, globalStyles} from 'config/style-config';
-import {useRouteLog} from 'hooks/use-routeLog';
+import {
+  Alert,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
+import {useRecoilState} from 'recoil';
+import {BrandListState} from 'store/brand-list';
 import {HomeTabScreenProps} from 'types/navigation';
 
 type RouteProps = HomeTabScreenProps<'AddBrandScreen'>;
@@ -28,12 +37,13 @@ const AddBrandScreen = ({navigation, route}: AddBrandScreenProps) => {
 
   const [loading, setLoading] = useState(false);
   const [brand, setBrand] = useState('');
-  const [reason, setReason] = useState('');
+  const [content, setContent] = useState('');
   const brandRef = useRef<TextInput | null>(null);
   const reasonRef = useRef<TextInput | null>(null);
+  const [brandList, setBrandList] = useRecoilState(BrandListState);
+  console.log(`brandList : ${brandList}`);
 
   useEffect(() => {}, []);
-
   /**
    * 브랜드 이름 입력시
    */
@@ -44,7 +54,7 @@ const AddBrandScreen = ({navigation, route}: AddBrandScreenProps) => {
    * 등록 이유 입력시
    */
   const onChangeReason = useCallback((text: string) => {
-    setReason(text.trim());
+    setContent(text.trim());
   }, []);
   /**
    * 취소 버튼 클릭시
@@ -55,12 +65,27 @@ const AddBrandScreen = ({navigation, route}: AddBrandScreenProps) => {
   /**
    * 등록 버튼 클릭시
    */
-  const onSubmit = useCallback(() => {
+  const onSubmit = useCallback(async () => {
     //TODO: 구현 해야함
     console.log('onSubmit 호출');
-
-    //객체 만들고, setAsyncStorage 하고, recoil에 넣기
-  }, []);
+    if (loading) {
+      return;
+    }
+    try {
+      setLoading(true);
+      const newBrand = {
+        brand: brand,
+        content: content,
+      };
+      brandList.concat(newBrand);
+      console.log(`데이터 전송전 확인 ${brandList}`);
+      console.log('데이터 전송중');
+      setBrandList(brandList);
+    } catch (error) {
+      Alert.alert(`에러 : ${error}`);
+    }
+    //객체 만들고, recoil에 만 넣으면 되
+  }, [brand, brandList, content, loading, setBrandList]);
 
   return (
     <View style={styles.block}>
@@ -85,7 +110,7 @@ const AddBrandScreen = ({navigation, route}: AddBrandScreenProps) => {
           onChangeText={onChangeReason}
           placeholder="등록 사유를 입력해주세요"
           placeholderTextColor="#666"
-          value={reason}
+          value={content}
           returnKeyType="next"
           clearButtonMode="while-editing"
           ref={reasonRef}
