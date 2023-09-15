@@ -1,8 +1,13 @@
 import React from 'react';
 import App from './App';
+import {RecoilRoot} from 'recoil';
 
 const Setup = () => {
-  return <App />;
+  return (
+    <RecoilRoot>
+      <App />
+    </RecoilRoot>
+  );
 };
 
 export default Setup;
