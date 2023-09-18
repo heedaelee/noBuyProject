@@ -5,6 +5,7 @@ export const getStorage = async <T = string>(
   def?: T,
 ): Promise<T | undefined> => {
   try {
+    console.log('localStorage/getStorage() 호출');
     const value = await AsyncStorage.getItem(key);
     //키에 맞는 데이터가 없을때
     if (typeof value === 'undefined' || value === null || value === '') {

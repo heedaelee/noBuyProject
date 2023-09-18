@@ -11,7 +11,7 @@ type RouteProps = HomeTabScreenProps<'HomeScreen'>;
 export interface HomeScreenProps extends RouteProps {}
 
 const HomeScreen = ({navigation, route}: HomeScreenProps) => {
-  useRouteLog('홈스크린 이다');
+  useRouteLog('홈스크린');
   /* 헤더 삭제함.  */
   // useLayoutEffect(() => {
   //   navigation.setOptions({
@@ -33,9 +33,11 @@ const HomeScreen = ({navigation, route}: HomeScreenProps) => {
         <Text style={styles.titleText}>불매 브랜드 리스트</Text>
         {/* <Text>url : {Config.API_URL}</Text> */}
       </View>
+      {/* 브랜드 리스트 시작 */}
       <View>
         <Text>예시 브랜드 리스트</Text>
       </View>
+      {/* 브랜드 리스트 끝 */}
       <CircleButton onPress={goToAddBrand}>+</CircleButton>
     </View>
   );

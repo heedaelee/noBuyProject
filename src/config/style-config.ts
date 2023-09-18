@@ -13,6 +13,8 @@ export const Colors = {
   gray70: '#DDE0E5',
   gray80: '#E6E9ED',
   gray90: '#f8f8f8',
+
+  blue10: '#3f51b5',
 };
 
 export const ColorBase = {

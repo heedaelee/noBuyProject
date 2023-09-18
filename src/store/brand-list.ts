@@ -4,7 +4,8 @@ import {localStorageEffect} from 'store/local-storage-effect';
 import {BRAND_LIST_KEY} from 'constants/atom-constant';
 
 export interface BrandItem {
-  brand: string;
+  id: string | number[];
+  name: string;
   content: string;
 }
 export interface BrandList extends Array<BrandItem> {}
@@ -14,7 +15,8 @@ export interface BrandList extends Array<BrandItem> {}
  */
 const initialState: BrandList = [
   {
-    brand: '',
+    id: '',
+    name: '',
     content: '',
   },
 ];

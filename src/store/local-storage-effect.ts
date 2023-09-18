@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export const localStorageEffect =
   <T>(key: string) =>
   ({setSelf, onSet}: any) => {
+    console.log(`초기화에서 뭐가 키염 : ${key}`);
     AsyncStorage.getItem(key).then(result => {
       //키가 AsyncStorage에 없다면, parsing해서 set
       if (result != null) {
