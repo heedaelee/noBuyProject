@@ -1,6 +1,5 @@
 import {BackButton} from 'components/Headers';
 import {Colors, _WIDTH, globalStyles} from 'config/style-config';
-import {useRouteLog} from 'hooks/use-routeLog';
 import React, {
   useCallback,
   useEffect,
@@ -16,7 +15,9 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import uuid from 'react-native-uuid';
 import {useRecoilState} from 'recoil';
+
 import {BrandListState} from 'store/brand-list';
 import {HomeTabScreenProps} from 'types/navigation';
 
@@ -25,7 +26,7 @@ type RouteProps = HomeTabScreenProps<'AddBrandScreen'>;
 export interface AddBrandScreenProps extends RouteProps {}
 
 const AddBrandScreen = ({navigation, route}: AddBrandScreenProps) => {
-  useRouteLog('AddBrandScreen 이다');
+  // useRouteLog();
   /* 헤더 삭제함.  */
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -36,19 +37,20 @@ const AddBrandScreen = ({navigation, route}: AddBrandScreenProps) => {
   }, [navigation]);
 
   const [loading, setLoading] = useState(false);
-  const [brand, setBrand] = useState('');
+  const [name, setName] = useState('');
   const [content, setContent] = useState('');
   const brandRef = useRef<TextInput | null>(null);
   const reasonRef = useRef<TextInput | null>(null);
   const [brandList, setBrandList] = useRecoilState(BrandListState);
-  console.log(`brandList : ${brandList}`);
+  const [isFocused1, setIsFocused1] = useState(false);
+  const [isFocused2, setIsFocused2] = useState(false);
 
   useEffect(() => {}, []);
   /**
    * 브랜드 이름 입력시
    */
   const onChangeBrand = useCallback((text: string) => {
-    setBrand(text.trim());
+    setName(text.trim());
   }, []);
   /**
    * 등록 이유 입력시
@@ -74,18 +76,20 @@ const AddBrandScreen = ({navigation, route}: AddBrandScreenProps) => {
     try {
       setLoading(true);
       const newBrand = {
-        brand: brand,
+        id: uuid.v4(),
+        name: name,
         content: content,
       };
       brandList.concat(newBrand);
-      console.log(`데이터 전송전 확인 ${brandList}`);
-      console.log('데이터 전송중');
       setBrandList(brandList);
     } catch (error) {
       Alert.alert(`에러 : ${error}`);
+    } finally {
+      setLoading(false);
+      //navigation.navigate('HomeScreen');
     }
     //객체 만들고, recoil에 만 넣으면 되
-  }, [brand, brandList, content, loading, setBrandList]);
+  }, [name, brandList, content, loading, setBrandList]);
 
   return (
     <View style={styles.block}>
@@ -94,19 +98,21 @@ const AddBrandScreen = ({navigation, route}: AddBrandScreenProps) => {
       </View>
       <View style={styles.inputWrapper}>
         <TextInput
-          style={styles.textInput}
+          style={[styles.textInput, isFocused1 ? styles.inputFocused : null]}
           onChangeText={onChangeBrand}
           placeholder="불매할 브랜드를 입력해주세요*"
           placeholderTextColor="#666"
-          value={brand}
+          value={name}
           returnKeyType="next"
           clearButtonMode="while-editing"
           ref={brandRef}
           onSubmitEditing={() => reasonRef.current?.focus()}
           blurOnSubmit={false}
+          onFocus={() => setIsFocused1(true)}
+          onBlur={() => setIsFocused1(false)}
         />
         <TextInput
-          style={styles.textInput}
+          style={[styles.textInput, isFocused2 ? styles.inputFocused : null]}
           onChangeText={onChangeReason}
           placeholder="등록 사유를 입력해주세요"
           placeholderTextColor="#666"
@@ -116,6 +122,8 @@ const AddBrandScreen = ({navigation, route}: AddBrandScreenProps) => {
           ref={reasonRef}
           onSubmitEditing={onSubmit}
           blurOnSubmit={false}
+          onFocus={() => setIsFocused2(true)}
+          onBlur={() => setIsFocused2(false)}
         />
         <View style={styles.buttonWrapper}>
           <Pressable
@@ -156,6 +164,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     fontSize: _WIDTH / 30,
     width: '100%',
+    color: Colors.black,
   },
   buttonWrapper: {
     flexDirection: 'row',
@@ -184,6 +193,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.27,
     shadowRadius: 10,
     elevation: 6,
+  },
+  inputFocused: {
+    borderColor: Colors.blue10,
+    borderBottomWidth: 1,
   },
   buttonText: {
     fontSize: 15,
