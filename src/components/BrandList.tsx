@@ -1,17 +1,20 @@
 import React from 'react';
 import {View} from 'react-native';
-import {useRecoilValue} from 'recoil';
+import {useRecoilState} from 'recoil';
 import {BrandListState} from 'store/brand-list';
 import Brand from './Brand';
 
 const BrandList = () => {
-  const brandList = useRecoilValue(BrandListState);
+  const [initialState, setInitialState] = useRecoilState(BrandListState);
 
-  console.log('brandList : ');
-  console.log(brandList);
+  console.log('initialState : ');
+  console.log(initialState);
+
+  const {brandList, page, selectedI} = initialState;
 
   const handlePress = (id: string | number[]) => {
     console.log(`id : ${id}`);
+    setInitialState({...initialState, selectedI: id, page: 'editor'});
   };
 
   return (

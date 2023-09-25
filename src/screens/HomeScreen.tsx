@@ -5,6 +5,7 @@ import {CircleButton} from 'components/Button';
 import {globalStyles} from 'config/style-config';
 import {useRouteLog} from 'hooks/use-routeLog';
 import type {HomeTabScreenProps} from 'types/navigation';
+import BrandList from 'components/BrandList';
 
 type RouteProps = HomeTabScreenProps<'HomeScreen'>;
 
@@ -34,9 +35,7 @@ const HomeScreen = ({navigation, route}: HomeScreenProps) => {
         {/* <Text>url : {Config.API_URL}</Text> */}
       </View>
       {/* 브랜드 리스트 시작 */}
-      <View>
-        <Text>예시 브랜드 리스트</Text>
-      </View>
+      <BrandList />
       {/* 브랜드 리스트 끝 */}
       <CircleButton onPress={goToAddBrand}>+</CircleButton>
     </View>

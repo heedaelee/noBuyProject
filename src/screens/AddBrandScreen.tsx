@@ -41,7 +41,7 @@ const AddBrandScreen = ({navigation, route}: AddBrandScreenProps) => {
   const [content, setContent] = useState('');
   const brandRef = useRef<TextInput | null>(null);
   const reasonRef = useRef<TextInput | null>(null);
-  const [brandList, setBrandList] = useRecoilState(BrandListState);
+  const [brandValue, setBrandValue] = useRecoilState(BrandListState);
   const [isFocused1, setIsFocused1] = useState(false);
   const [isFocused2, setIsFocused2] = useState(false);
 
@@ -80,8 +80,8 @@ const AddBrandScreen = ({navigation, route}: AddBrandScreenProps) => {
         name: name,
         content: content,
       };
-      brandList.concat(newBrand);
-      setBrandList(brandList);
+      brandValue.brandList.concat(newBrand);
+      setBrandValue(brandValue);
     } catch (error) {
       Alert.alert(`에러 : ${error}`);
     } finally {
@@ -89,7 +89,7 @@ const AddBrandScreen = ({navigation, route}: AddBrandScreenProps) => {
       //navigation.navigate('HomeScreen');
     }
     //객체 만들고, recoil에 만 넣으면 되
-  }, [name, brandList, content, loading, setBrandList]);
+  }, [name, brandValue, content, loading, setBrandValue]);
 
   return (
     <View style={styles.block}>

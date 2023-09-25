@@ -8,18 +8,22 @@ export interface BrandItem {
   name: string;
   content: string;
 }
+
 export interface BrandList extends Array<BrandItem> {}
+export interface initialStateType {
+  brandList: BrandList;
+  selectedI: BrandItem['id'];
+  page: 'editor' | 'list';
+}
 
 /**
  * 초기값 지정
  */
-const initialState: BrandList = [
-  {
-    id: '',
-    name: '',
-    content: '',
-  },
-];
+const initialState: initialStateType = {
+  selectedI: '-1',
+  page: 'list',
+  brandList: [{id: '0', name: '브랜드 이름', content: '등록 사유'}],
+};
 
 /**
  * BrandList 입력
