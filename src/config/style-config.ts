@@ -48,6 +48,22 @@ export const ColorContents = {
 
 const backgroundColor = '#ffffff';
 
+export const BoxShadow = {
+  shadowColor: '#000',
+  shadowOffset: {
+    width: 0,
+    height: 3,
+  },
+  shadowOpacity: 0.27,
+  shadowRadius: 10,
+  elevation: 6,
+  backgroundColor: backgroundColor,
+  borderRadius: 10,
+};
+
+export const _WIDTH = Dimensions.get('window').width;
+export const _HEIGHT = Dimensions.get('window').height;
+
 export const globalStyles = StyleSheet.create({
   titleText: {
     fontFamily: 'Cafe24Dangdanghae-v2.0',
@@ -61,6 +77,7 @@ export const globalStyles = StyleSheet.create({
     borderColor: 'red',
     alignItems: 'center',
   },
+
   titleView: {
     marginTop: 20,
     width: '80%',
@@ -68,18 +85,15 @@ export const globalStyles = StyleSheet.create({
     // borderWidth: 1,
     // borderColor: 'green',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.27,
-    shadowRadius: 10,
-    elevation: 6,
-    backgroundColor: backgroundColor,
-    borderRadius: 10,
+    ...BoxShadow,
+  },
+  contentView: {
+    width: _WIDTH * 0.8,
+    flexDirection: 'row',
+    padding: 10,
+    // borderWidth: 1,
+    // borderColor: 'green',
+    justifyContent: 'center',
+    ...BoxShadow,
   },
 });
-
-export const _WIDTH = Dimensions.get('window').width;
-export const _HEIGHT = Dimensions.get('window').height;

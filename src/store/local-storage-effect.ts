@@ -12,8 +12,9 @@ export const localStorageEffect =
     console.log(`초기화에서 뭐가 키염 : ${key}`);
     AsyncStorage.getItem(key).then(result => {
       //키가 AsyncStorage에 없다면, parsing해서 set
+      // console.log(result ? JSON.parse(result) : 'null');
       if (result != null) {
-        console.log('해당 키 없어서 set함: 초기화');
+        // console.log('result가 null 이 아니면');
         setSelf(JSON.parse(result ?? ''));
       }
     });
