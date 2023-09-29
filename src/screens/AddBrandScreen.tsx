@@ -1,3 +1,4 @@
+import DismissKeyboardView from 'components/DismissKeyBoardView';
 import {BackButton} from 'components/Headers';
 import {Colors, _WIDTH, globalStyles} from 'config/style-config';
 import React, {
@@ -80,73 +81,90 @@ const AddBrandScreen = ({navigation, route}: AddBrandScreenProps) => {
         name: name,
         content: content,
       };
-      brandValue.brandList.concat(newBrand);
-      setBrandValue(brandValue);
+      const newBrandValue = {
+        ...brandValue,
+        brandList: brandValue.brandList.concat(newBrand),
+      };
+      console.log('setBrandValue호출');
+      console.log('newBrandValue:');
+      console.log(JSON.stringify(newBrandValue));
+      setBrandValue(newBrandValue);
     } catch (error) {
       Alert.alert(`에러 : ${error}`);
     } finally {
       setLoading(false);
-      //navigation.navigate('HomeScreen');
+      navigation.navigate('HomeScreen');
     }
     //객체 만들고, recoil에 만 넣으면 되
-  }, [name, brandValue, content, loading, setBrandValue]);
+  }, [loading, name, content, brandValue.brandList, setBrandValue, navigation]);
 
   return (
-    <View style={styles.block}>
-      <View style={globalStyles.titleView}>
-        <Text style={styles.titleText}>브랜드 추가</Text>
-      </View>
-      <View style={styles.inputWrapper}>
-        <TextInput
-          style={[styles.textInput, isFocused1 ? styles.inputFocused : null]}
-          onChangeText={onChangeBrand}
-          placeholder="불매할 브랜드를 입력해주세요*"
-          placeholderTextColor="#666"
-          value={name}
-          returnKeyType="next"
-          clearButtonMode="while-editing"
-          ref={brandRef}
-          onSubmitEditing={() => reasonRef.current?.focus()}
-          blurOnSubmit={false}
-          onFocus={() => setIsFocused1(true)}
-          onBlur={() => setIsFocused1(false)}
-        />
-        <TextInput
-          style={[styles.textInput, isFocused2 ? styles.inputFocused : null]}
-          onChangeText={onChangeReason}
-          placeholder="등록 사유를 입력해주세요"
-          placeholderTextColor="#666"
-          value={content}
-          returnKeyType="next"
-          clearButtonMode="while-editing"
-          ref={reasonRef}
-          onSubmitEditing={onSubmit}
-          blurOnSubmit={false}
-          onFocus={() => setIsFocused2(true)}
-          onBlur={() => setIsFocused2(false)}
-        />
-        <View style={styles.buttonWrapper}>
-          <Pressable
-            style={({pressed}) => [
-              {
-                backgroundColor: pressed ? Colors.gray60 : 'white',
-                marginRight: 10,
-              },
-              styles.button,
-            ]}
-            onPress={goBack}>
-            <Text style={styles.buttonText}>취소</Text>
-          </Pressable>
-          <Pressable
-            style={StyleSheet.compose(styles.button, styles.registrationButton)}
-            onPress={onSubmit}>
-            <Text style={{...styles.buttonText, color: Colors.white}}>
-              등록
-            </Text>
-          </Pressable>
+    <DismissKeyboardView style={{flex: 1}}>
+      <View style={styles.block}>
+        <View style={globalStyles.titleView}>
+          <Text style={styles.titleText}>브랜드 추가</Text>
+        </View>
+        <View style={styles.inputWrapper}>
+          <TextInput
+            style={[styles.textInput, isFocused1 ? styles.inputFocused : null]}
+            onChangeText={onChangeBrand}
+            placeholder="불매할 브랜드를 입력해주세요*"
+            placeholderTextColor="#666"
+            value={name}
+            returnKeyType="next"
+            clearButtonMode="while-editing"
+            ref={brandRef}
+            onSubmitEditing={() => reasonRef.current?.focus()}
+            blurOnSubmit={false}
+            onFocus={() => setIsFocused1(true)}
+            onBlur={() => setIsFocused1(false)}
+            multiline={true}
+            numberOfLines={1}
+          />
+          <TextInput
+            style={[styles.textInput, isFocused2 ? styles.inputFocused : null]}
+            onChangeText={onChangeReason}
+            placeholder="등록 사유를 입력해주세요"
+            placeholderTextColor="#666"
+            value={content}
+            returnKeyType="next"
+            clearButtonMode="while-editing"
+            ref={reasonRef}
+            onSubmitEditing={onSubmit}
+            blurOnSubmit={false}
+            onFocus={() => setIsFocused2(true)}
+            onBlur={() => setIsFocused2(false)}
+            // 자동 줄바꿈
+            multiline={true}
+            // 디폴트 1줄로 첨에 보임
+            numberOfLines={1}
+          />
+          <View style={styles.buttonWrapper}>
+            <Pressable
+              style={({pressed}) => [
+                {
+                  backgroundColor: pressed ? Colors.gray60 : 'white',
+                  marginRight: 10,
+                },
+                styles.button,
+              ]}
+              onPress={goBack}>
+              <Text style={styles.buttonText}>취소</Text>
+            </Pressable>
+            <Pressable
+              style={StyleSheet.compose(
+                styles.button,
+                styles.registrationButton,
+              )}
+              onPress={onSubmit}>
+              <Text style={{...styles.buttonText, color: Colors.white}}>
+                등록
+              </Text>
+            </Pressable>
+          </View>
         </View>
       </View>
-    </View>
+    </DismissKeyboardView>
   );
 };
 
@@ -172,10 +190,6 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 0,
     width: '100%',
-    // borderWidth: 1,
-    // borderColor: 'green',
-    // width: '100%',
-    // height: 100,
   },
   button: {
     paddingVertical: 9,
