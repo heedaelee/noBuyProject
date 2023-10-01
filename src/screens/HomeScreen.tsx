@@ -1,11 +1,13 @@
 import React, {useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import {useRecoilState} from 'recoil';
 
 import {CircleButton} from 'components/Button';
 import {globalStyles} from 'config/style-config';
 import {useRouteLog} from 'hooks/use-routeLog';
 import type {HomeTabScreenProps} from 'types/navigation';
 import BrandList from 'components/BrandList';
+import {BrandListState} from 'store/brand-list';
 
 type RouteProps = HomeTabScreenProps<'HomeScreen'>;
 
@@ -22,10 +24,13 @@ const HomeScreen = ({navigation, route}: HomeScreenProps) => {
   //   });
   // }, [navigation]);
 
+  const [initialState, setInitialState] = useRecoilState(BrandListState);
+
   useEffect(() => {}, []);
 
   const goToAddBrand = () => {
-    navigation.navigate('AddBrandScreen');
+    setInitialState({...initialState, page: 'register'});
+    navigation.navigate('BrandFormScreen');
   };
 
   return (

@@ -4,7 +4,7 @@ import {HomeTabParamList} from 'types/navigation';
 import {useRouteLog} from 'hooks/use-routeLog';
 import {headerConfig} from 'config/native-config';
 import HomeScreen from 'screens/HomeScreen';
-import AddBrandScreen from 'screens/AddBrandScreen';
+import BrandFormScreen from 'screens/BrandFormScreen';
 
 const Stack = createNativeStackNavigator<HomeTabParamList>();
 
@@ -19,18 +19,8 @@ const HomeNavigator = ({}: HomeNavigatorProps) => {
     <Stack.Navigator
       initialRouteName={initRouteName}
       screenOptions={headerConfig}>
-      <Stack.Screen
-        name="HomeScreen"
-        component={HomeScreen}
-        // options={{
-        //   headerStyle: {
-        //     zIndex: 100,
-        //     position: 'relative',
-        //     overflow: 'visible',
-        //   },
-        // }}
-      />
-      <Stack.Screen name="AddBrandScreen" component={AddBrandScreen} />
+      <Stack.Screen name="HomeScreen" component={HomeScreen} />
+      <Stack.Screen name="BrandFormScreen" component={BrandFormScreen} />
     </Stack.Navigator>
   );
 };

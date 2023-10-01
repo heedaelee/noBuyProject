@@ -22,11 +22,11 @@ import {useRecoilState} from 'recoil';
 import {BrandListState} from 'store/brand-list';
 import {HomeTabScreenProps} from 'types/navigation';
 
-type RouteProps = HomeTabScreenProps<'AddBrandScreen'>;
+type RouteProps = HomeTabScreenProps<'BrandFormScreen'>;
 
-export interface AddBrandScreenProps extends RouteProps {}
+export interface BrandFormScreenProps extends RouteProps {}
 
-const AddBrandScreen = ({navigation, route}: AddBrandScreenProps) => {
+const BrandFormScreen = ({navigation, route}: BrandFormScreenProps) => {
   // useRouteLog();
   /* 헤더 삭제함.  */
   useLayoutEffect(() => {
@@ -45,6 +45,8 @@ const AddBrandScreen = ({navigation, route}: AddBrandScreenProps) => {
   const [brandValue, setBrandValue] = useRecoilState(BrandListState);
   const [isFocused1, setIsFocused1] = useState(false);
   const [isFocused2, setIsFocused2] = useState(false);
+
+  const {brandList, page, selectedI} = brandValue;
 
   useEffect(() => {}, []);
   /**
@@ -96,13 +98,15 @@ const AddBrandScreen = ({navigation, route}: AddBrandScreenProps) => {
       navigation.navigate('HomeScreen');
     }
     //객체 만들고, recoil에 만 넣으면 되
-  }, [loading, name, content, brandValue.brandList, setBrandValue, navigation]);
+  }, [loading, name, content, brandValue, setBrandValue, navigation]);
 
   return (
     <DismissKeyboardView style={{flex: 1}}>
       <View style={styles.block}>
         <View style={globalStyles.titleView}>
-          <Text style={styles.titleText}>브랜드 추가</Text>
+          <Text style={styles.titleText}>
+            {page === 'register' ? '브랜드 추가' : '브랜드 수정'}
+          </Text>
         </View>
         <View style={styles.inputWrapper}>
           <TextInput
@@ -219,4 +223,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddBrandScreen;
+export default BrandFormScreen;

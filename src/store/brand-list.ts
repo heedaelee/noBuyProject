@@ -13,7 +13,7 @@ export interface BrandList extends Array<BrandItem> {}
 export interface initialStateType {
   brandList: BrandList;
   selectedI: BrandItem['id'];
-  page: 'editor' | 'list';
+  page: 'editor' | 'register' | 'list';
 }
 
 /**

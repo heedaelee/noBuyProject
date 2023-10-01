@@ -32,7 +32,7 @@ export type BottomTabParamList = {
  */
 export type HomeTabParamList = {
   HomeScreen: undefined;
-  AddBrandScreen: undefined;
+  BrandFormScreen: undefined;
 };
 
 //BottomTabScreenProps 는 기본 api이다
