@@ -1,8 +1,10 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useRecoilState} from 'recoil';
 import {BrandListState} from 'store/brand-list';
 import Brand from './Brand';
+import {BrandUseNavigationType} from 'types/navigation';
 
 const BrandList = () => {
   const [initialState, setInitialState] = useRecoilState(BrandListState);
@@ -11,13 +13,15 @@ const BrandList = () => {
   console.log(initialState);
 
   const {brandList, page, selectedI} = initialState;
+  const navigation = useNavigation<BrandUseNavigationType>();
 
   console.log(`BrandList.tsx 페이지 brandList : `);
   console.log(brandList);
 
-  const handlePress = (id: string | number[]) => {
+  const goToEditBrand = (id: string | number[]) => {
     console.log(`id : ${id}`);
     setInitialState({...initialState, selectedI: id, page: 'editor'});
+    navigation.navigate('BrandFormScreen');
   };
 
   return (
@@ -28,7 +32,7 @@ const BrandList = () => {
           id={brand.id}
           name={brand.name}
           content={brand.content}
-          onPress={handlePress}
+          onPress={goToEditBrand}
         />
       ))}
     </View>

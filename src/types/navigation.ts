@@ -3,6 +3,7 @@ import {
   CompositeScreenProps,
   NavigatorScreenParams,
 } from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {StackScreenProps} from '@react-navigation/stack';
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
@@ -19,9 +20,10 @@ export type RootStackScreenProps<T extends keyof RootStackParamList> =
  * 모든 스크린을 자동 완성 해주기 위에 편의상 유니온을 결합함. 즉 BottomTabParamList 를 삭제해도
  * 타입 에러는 안뜸
  */
-export type RootStackParamList = BottomTabParamList & {
-  BottomTabNavigator: undefined;
-};
+export type RootStackParamList = BottomTabParamList &
+  HomeTabParamList & {
+    BottomTabNavigator: undefined;
+  };
 
 export type BottomTabParamList = {
   // HomeNavigator: NavigatorScreenParams<HomeTabParamList>;
@@ -41,3 +43,6 @@ export type HomeTabScreenProps<T extends keyof HomeTabParamList> =
     BottomTabScreenProps<HomeTabParamList, T>,
     RootStackScreenProps<keyof RootStackParamList>
   >;
+
+export type BrandUseNavigationType =
+  NativeStackNavigationProp<RootStackParamList>;

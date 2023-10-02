@@ -48,7 +48,16 @@ const BrandFormScreen = ({navigation, route}: BrandFormScreenProps) => {
 
   const {brandList, page, selectedI} = brandValue;
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    page === 'editor' &&
+      selectedI !== '-1' &&
+      brandList.forEach((v, i) => {
+        if (v.id === selectedI) {
+          setName(v.name);
+          setContent(v.content);
+        }
+      });
+  }, [brandList, page, selectedI]);
   /**
    * 브랜드 이름 입력시
    */
@@ -78,18 +87,30 @@ const BrandFormScreen = ({navigation, route}: BrandFormScreenProps) => {
     }
     try {
       setLoading(true);
-      const newBrand = {
-        id: uuid.v4(),
-        name: name,
-        content: content,
-      };
-      const newBrandValue = {
-        ...brandValue,
-        brandList: brandValue.brandList.concat(newBrand),
-      };
+      let newBrandValue;
+      if (page === 'register') {
+        console.log('등록 process');
+        const newBrand = {
+          id: uuid.v4(),
+          name: name,
+          content: content,
+        };
+        newBrandValue = {
+          ...brandValue,
+          brandList: brandValue.brandList.concat(newBrand),
+        };
+      } else {
+        console.log('수정 process');
+        newBrandValue = {
+          ...brandValue,
+          brandList: brandValue.brandList.map((v, i) =>
+            v.id === selectedI ? {id: v.id, name: name, content: content} : v,
+          ),
+        };
+      }
+      console.log(JSON.stringify(newBrandValue));
       console.log('setBrandValue호출');
       console.log('newBrandValue:');
-      console.log(JSON.stringify(newBrandValue));
       setBrandValue(newBrandValue);
     } catch (error) {
       Alert.alert(`에러 : ${error}`);
@@ -98,7 +119,16 @@ const BrandFormScreen = ({navigation, route}: BrandFormScreenProps) => {
       navigation.navigate('HomeScreen');
     }
     //객체 만들고, recoil에 만 넣으면 되
-  }, [loading, name, content, brandValue, setBrandValue, navigation]);
+  }, [
+    loading,
+    page,
+    setBrandValue,
+    name,
+    content,
+    brandValue,
+    selectedI,
+    navigation,
+  ]);
 
   return (
     <DismissKeyboardView style={{flex: 1}}>
@@ -162,7 +192,7 @@ const BrandFormScreen = ({navigation, route}: BrandFormScreenProps) => {
               )}
               onPress={onSubmit}>
               <Text style={{...styles.buttonText, color: Colors.white}}>
-                등록
+                {page === 'register' ? '등록' : '수정'}
               </Text>
             </Pressable>
           </View>
