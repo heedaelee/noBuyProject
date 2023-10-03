@@ -20,6 +20,9 @@ const BrandList = () => {
 
   const goToEditBrand = (id: string | number[]) => {
     console.log(`id : ${id}`);
+    if (id === '0') {
+      return;
+    }
     setInitialState({...initialState, selectedI: id, page: 'editor'});
     navigation.navigate('BrandFormScreen');
   };
