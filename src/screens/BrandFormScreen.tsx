@@ -1,6 +1,3 @@
-import DismissKeyboardView from 'components/DismissKeyBoardView';
-import {BackButton} from 'components/Headers';
-import {Colors, _WIDTH, globalStyles} from 'config/style-config';
 import React, {
   useCallback,
   useEffect,
@@ -21,6 +18,10 @@ import {useRecoilState} from 'recoil';
 
 import {BrandListState} from 'store/brand-list';
 import {HomeTabScreenProps} from 'types/navigation';
+import DismissKeyboardView from 'components/DismissKeyBoardView';
+import {BackButton} from 'components/Headers';
+import InputField from 'components/InputField';
+import {Colors, _WIDTH, globalStyles} from 'config/style-config';
 
 type RouteProps = HomeTabScreenProps<'BrandFormScreen'>;
 
@@ -38,38 +39,60 @@ const BrandFormScreen = ({navigation, route}: BrandFormScreenProps) => {
   }, [navigation]);
 
   const [loading, setLoading] = useState(false);
-  const [name, setName] = useState('');
-  const [content, setContent] = useState('');
+  const [values, setValues] = useState({
+    name: '',
+    content: '',
+  });
+  const [focused, setFocued] = useState({});
+  const [touched, setTouched] = useState({});
   const brandRef = useRef<TextInput | null>(null);
   const reasonRef = useRef<TextInput | null>(null);
   const [brandValue, setBrandValue] = useRecoilState(BrandListState);
-  const [isFocused1, setIsFocused1] = useState(false);
-  const [isFocused2, setIsFocused2] = useState(false);
 
   const {brandList, page, selectedI} = brandValue;
+
+  type InputTypes = 'name' | 'content';
+  /**
+   * 포커싱 될때
+   */
+  const handleFocus = (name: InputTypes) => {
+    setFocued({
+      ...focused,
+      [name]: true,
+    });
+  };
+  /**
+   * 포커싱이 떠날때
+   */
+  const handleBlur = (name: InputTypes) => {
+    setFocued({
+      ...focused,
+      [name]: false,
+    });
+    setTouched({
+      ...touched,
+      [name]: true,
+    });
+  };
 
   useEffect(() => {
     page === 'editor' &&
       selectedI !== '-1' &&
       brandList.forEach((v, i) => {
         if (v.id === selectedI) {
-          setName(v.name);
-          setContent(v.content);
+          setValues({name: v.name, content: v.content});
         }
       });
   }, [brandList, page, selectedI]);
   /**
-   * 브랜드 이름 입력시
+   * 브랜드, 등록 이유 등 텍스트 인풋 입력시 (통합)
    */
-  const onChangeBrand = useCallback((text: string) => {
-    setName(text.trim());
-  }, []);
-  /**
-   * 등록 이유 입력시
-   */
-  const onChangeReason = useCallback((text: string) => {
-    setContent(text.trim());
-  }, []);
+  const handleChangeText = (name: string, text: string) => {
+    setValues({
+      ...values,
+      [name]: text.trim(),
+    });
+  };
   /**
    * 취소 버튼 클릭시
    */
@@ -92,8 +115,8 @@ const BrandFormScreen = ({navigation, route}: BrandFormScreenProps) => {
         console.log('등록 process');
         const newBrand = {
           id: uuid.v4(),
-          name: name,
-          content: content,
+          name: values.name,
+          content: values.content,
         };
         newBrandValue = {
           ...brandValue,
@@ -104,7 +127,9 @@ const BrandFormScreen = ({navigation, route}: BrandFormScreenProps) => {
         newBrandValue = {
           ...brandValue,
           brandList: brandValue.brandList.map((v, i) =>
-            v.id === selectedI ? {id: v.id, name: name, content: content} : v,
+            v.id === selectedI
+              ? {id: v.id, name: values.name, content: values.content}
+              : v,
           ),
         };
       }
@@ -123,8 +148,8 @@ const BrandFormScreen = ({navigation, route}: BrandFormScreenProps) => {
     loading,
     page,
     setBrandValue,
-    name,
-    content,
+    values.name,
+    values.content,
     brandValue,
     selectedI,
     navigation,
@@ -139,40 +164,72 @@ const BrandFormScreen = ({navigation, route}: BrandFormScreenProps) => {
           </Text>
         </View>
         <View style={styles.inputWrapper}>
-          <TextInput
-            style={[styles.textInput, isFocused1 ? styles.inputFocused : null]}
-            onChangeText={onChangeBrand}
+          <InputField
+            focused={focused}
             placeholder="불매할 브랜드를 입력해주세요*"
             placeholderTextColor="#666"
-            value={name}
+            onChangeText={text => handleChangeText('name', text)}
+            value={values.name}
+            returnKeyType="next"
+            clearButtonMode="while-editing"
+            // ref={brandRef}
+            onSubmitEditing={() => reasonRef.current?.focus()}
+            blurOnSubmit={false}
+            onFocus={() => handleFocus('name')}
+            onBlur={() => handleBlur('name')}
+            multiline={true} // 자동 줄바꿈
+            numberOfLines={1} // 디폴트 1줄로 첨에 보임
+          />
+          <InputField
+            onChangeText={text => handleChangeText('content', text)}
+            placeholder="등록 사유를 입력해주세요"
+            placeholderTextColor="#666"
+            value={values.content}
+            returnKeyType="next"
+            clearButtonMode="while-editing"
+            // ref={reasonRef}
+            onSubmitEditing={onSubmit}
+            blurOnSubmit={false}
+            onFocus={() => handleFocus('content')}
+            onBlur={() => handleBlur('content')}
+            multiline={true}
+            numberOfLines={1}
+          />
+
+          {/* <TextInput
+            style={[styles.textInput, focused ? styles.inputFocused : null]}
+            onChangeText={text => handleChangeText('name', text)}
+            placeholder="불매할 브랜드를 입력해주세요*"
+            placeholderTextColor="#666"
+            value={values.name}
             returnKeyType="next"
             clearButtonMode="while-editing"
             ref={brandRef}
             onSubmitEditing={() => reasonRef.current?.focus()}
             blurOnSubmit={false}
-            onFocus={() => setIsFocused1(true)}
-            onBlur={() => setIsFocused1(false)}
+            onFocus={() => handleFocus('name')}
+            onBlur={() => handleBlur('name')}
             multiline={true}
             numberOfLines={1}
-          />
-          <TextInput
-            style={[styles.textInput, isFocused2 ? styles.inputFocused : null]}
-            onChangeText={onChangeReason}
+          /> */}
+          {/* <TextInput
+            style={[styles.input, focused ? styles.inputFocused : null]}
+            onChangeText={text => handleChangeText('content', text)}
             placeholder="등록 사유를 입력해주세요"
             placeholderTextColor="#666"
-            value={content}
+            value={values.content}
             returnKeyType="next"
             clearButtonMode="while-editing"
             ref={reasonRef}
             onSubmitEditing={onSubmit}
             blurOnSubmit={false}
-            onFocus={() => setIsFocused2(true)}
-            onBlur={() => setIsFocused2(false)}
+            onFocus={() => handleFocus('content')}
+            onBlur={() => handleBlur('content')}
             // 자동 줄바꿈
             multiline={true}
             // 디폴트 1줄로 첨에 보임
             numberOfLines={1}
-          />
+          /> */}
           <View style={styles.buttonWrapper}>
             <Pressable
               style={({pressed}) => [
@@ -209,7 +266,7 @@ const styles = StyleSheet.create({
     ...globalStyles.titleView,
     marginTop: 10,
   },
-  textInput: {
+  input: {
     padding: 5,
     paddingBottom: 0,
     marginBottom: 10,
