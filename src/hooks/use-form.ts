@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 type InputTypes = 'name' | 'content';
 
 type InitialValue = {
-  name: '';
-  content: '';
+  name: string;
+  content: string;
 };
 
 const useForm = (initialValue: InitialValue) => {
@@ -43,7 +43,11 @@ const useForm = (initialValue: InitialValue) => {
       [name]: text.trim(),
     });
   };
-
+  /**
+   * @param InputTypes
+   * input type을 입력시 해당 state, setState,
+   *  blur, focus, changeText 기능의 객체를 제공함
+   **/
   const getTextInputProps = (inputName: InputTypes) => {
     const onChangeText = (text: string) => {
       handleChangeText(inputName, text);
@@ -54,6 +58,7 @@ const useForm = (initialValue: InitialValue) => {
 
     return {value, onBlur, onFocus, onChangeText, focused};
   };
+  return {getTextInputProps, values};
 };
 
 export default useForm;
