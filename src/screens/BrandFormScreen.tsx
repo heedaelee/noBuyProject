@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, {useCallback, useLayoutEffect, useRef, useState} from 'react';
 import {
   Alert,
   Pressable,
@@ -16,12 +10,13 @@ import {
 import uuid from 'react-native-uuid';
 import {useRecoilState} from 'recoil';
 
-import {BrandListState} from 'store/brand-list';
-import {HomeTabScreenProps} from 'types/navigation';
 import DismissKeyboardView from 'components/DismissKeyBoardView';
 import {BackButton} from 'components/Headers';
 import InputField from 'components/InputField';
 import {Colors, _WIDTH, globalStyles} from 'config/style-config';
+import useForm from 'hooks/use-form';
+import {BrandListState} from 'store/brand-list';
+import {HomeTabScreenProps} from 'types/navigation';
 
 type RouteProps = HomeTabScreenProps<'BrandFormScreen'>;
 
@@ -39,60 +34,41 @@ const BrandFormScreen = ({navigation, route}: BrandFormScreenProps) => {
   }, [navigation]);
 
   const [loading, setLoading] = useState(false);
-  const [values, setValues] = useState({
-    name: '',
-    content: '',
-  });
-  const [focused, setFocued] = useState({});
-  const [touched, setTouched] = useState({});
+
   const brandRef = useRef<TextInput | null>(null);
   const reasonRef = useRef<TextInput | null>(null);
   const [brandValue, setBrandValue] = useRecoilState(BrandListState);
 
   const {brandList, page, selectedI} = brandValue;
 
-  type InputTypes = 'name' | 'content';
-  /**
-   * 포커싱 될때
-   */
-  const handleFocus = (name: InputTypes) => {
-    setFocued({
-      ...focused,
-      [name]: true,
+  let initialValue = {name: '', content: ''};
+  if (page === 'editor' && selectedI !== '-1') {
+    brandList.forEach(v => {
+      if (v.id === selectedI) {
+        initialValue = {name: v.name, content: v.content};
+      }
     });
-  };
-  /**
-   * 포커싱이 떠날때
-   */
-  const handleBlur = (name: InputTypes) => {
-    setFocued({
-      ...focused,
-      [name]: false,
-    });
-    setTouched({
-      ...touched,
-      [name]: true,
-    });
-  };
+  }
+  const brandForm = useForm(initialValue);
 
-  useEffect(() => {
+  /* NOTE:백업 */
+  // page === 'editor' &&
+  //   selectedI !== '-1' &&
+  //   brandList.forEach((v, i) => {
+  //     if (v.id === selectedI) {
+  //       brandForm = useForm({name: v.name, content: v.content});
+  //     }
+  //   });
+  /* useEffect(() => {
     page === 'editor' &&
       selectedI !== '-1' &&
       brandList.forEach((v, i) => {
         if (v.id === selectedI) {
-          setValues({name: v.name, content: v.content});
+          brandForm({name: v.name, content: v.content});
         }
       });
-  }, [brandList, page, selectedI]);
-  /**
-   * 브랜드, 등록 이유 등 텍스트 인풋 입력시 (통합)
-   */
-  const handleChangeText = (name: string, text: string) => {
-    setValues({
-      ...values,
-      [name]: text.trim(),
-    });
-  };
+  }, [brandList, page, selectedI]); */
+
   /**
    * 취소 버튼 클릭시
    */
@@ -115,8 +91,8 @@ const BrandFormScreen = ({navigation, route}: BrandFormScreenProps) => {
         console.log('등록 process');
         const newBrand = {
           id: uuid.v4(),
-          name: values.name,
-          content: values.content,
+          name: brandForm.values.name,
+          content: brandForm.values.content,
         };
         newBrandValue = {
           ...brandValue,
@@ -126,9 +102,13 @@ const BrandFormScreen = ({navigation, route}: BrandFormScreenProps) => {
         console.log('수정 process');
         newBrandValue = {
           ...brandValue,
-          brandList: brandValue.brandList.map((v, i) =>
+          brandList: brandValue.brandList.map(v =>
             v.id === selectedI
-              ? {id: v.id, name: values.name, content: values.content}
+              ? {
+                  id: v.id,
+                  name: brandForm.values.name,
+                  content: brandForm.values.content,
+                }
               : v,
           ),
         };
@@ -148,15 +128,19 @@ const BrandFormScreen = ({navigation, route}: BrandFormScreenProps) => {
     loading,
     page,
     setBrandValue,
-    values.name,
-    values.content,
+    brandForm.values.name,
+    brandForm.values.content,
     brandValue,
     selectedI,
     navigation,
   ]);
 
+  console.log(`brandForm.values : ${JSON.stringify(brandForm.values)}`);
+  console.log(`brandForm.error : ${JSON.stringify(brandForm.error)}`);
+  console.log(`brandForm.focused : ${JSON.stringify(brandForm.focused)}`);
+
   return (
-    <DismissKeyboardView style={{flex: 1}}>
+    <DismissKeyboardView style={styles.DismissKeyboardView}>
       <View style={styles.block}>
         <View style={globalStyles.titleView}>
           <Text style={styles.titleText}>
@@ -165,35 +149,32 @@ const BrandFormScreen = ({navigation, route}: BrandFormScreenProps) => {
         </View>
         <View style={styles.inputWrapper}>
           <InputField
-            focused={focused}
             placeholder="불매할 브랜드를 입력해주세요*"
             placeholderTextColor="#666"
-            onChangeText={text => handleChangeText('name', text)}
-            value={values.name}
             returnKeyType="next"
             clearButtonMode="while-editing"
             // ref={brandRef}
             onSubmitEditing={() => reasonRef.current?.focus()}
             blurOnSubmit={false}
-            onFocus={() => handleFocus('name')}
-            onBlur={() => handleBlur('name')}
             multiline={true} // 자동 줄바꿈
             numberOfLines={1} // 디폴트 1줄로 첨에 보임
+            {...brandForm.getTextInputProps('name')}
+            error={brandForm.error.name}
+            focused={brandForm.focused.name}
           />
           <InputField
-            onChangeText={text => handleChangeText('content', text)}
             placeholder="등록 사유를 입력해주세요"
             placeholderTextColor="#666"
-            value={values.content}
             returnKeyType="next"
             clearButtonMode="while-editing"
             // ref={reasonRef}
             onSubmitEditing={onSubmit}
             blurOnSubmit={false}
-            onFocus={() => handleFocus('content')}
-            onBlur={() => handleBlur('content')}
             multiline={true}
             numberOfLines={1}
+            {...brandForm.getTextInputProps('content')}
+            error={brandForm.error.content}
+            focused={brandForm.focused.content}
           />
 
           {/* <TextInput
@@ -260,6 +241,7 @@ const BrandFormScreen = ({navigation, route}: BrandFormScreenProps) => {
 };
 
 const styles = StyleSheet.create({
+  DismissKeyboardView: {flex: 1},
   block: globalStyles.mainBlock,
   titleText: globalStyles.titleText,
   inputWrapper: {

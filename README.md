@@ -69,6 +69,9 @@ Android - cd android && ./gradlew clean && cd ..
 iOS - cd ios && pod deintegrate && pod cache clean -all && rm -rf Podfile.lock && cd ..
 ```
 
+## Log convention
+데이터 체크 주석은 /* 체크 */로 기록
+
 ## GIT convention
 feat: 🐲 새로운 기능을 추가
 fix: 🐒 버그 수정

@@ -3,18 +3,27 @@ import React from 'react';
 import {StyleSheet, Text, TextInput, TextInputProps, View} from 'react-native';
 
 interface InputFieldProps extends TextInputProps {
-  focused?: {};
-  touched?: boolean;
+  focused?: boolean;
   error?: string;
 }
 
-const InputField = ({focused, touched, error, ...props}: InputFieldProps) => {
+const InputField = ({focused, error, ...props}: InputFieldProps) => {
+  /* 체크 */
+  /* console.log(`value는? : ${JSON.stringify(props.value)}`);
+  console.log(`focused? : ${JSON.stringify(focused)}`); */
   return (
     <View style={styles.container}>
       {/* TODO: hook 만든 후 styles.inputFocused로 통합하기 */}
-      <TextInput style={[styles.input]} {...props} />
+      {focused && (
+        <Text style={styles.placeholderText}>{props.placeholder}</Text>
+      )}
+      <TextInput
+        style={[styles.input, focused ? styles.inputFocused : null]}
+        {...props}
+        placeholder={focused ? '' : props.placeholder}
+      />
       {/* 에러메시지 */}
-      {touched && error && <Text style={styles.error}>{error}</Text>}
+      {error && <Text style={styles.errorText}>{error}</Text>}
     </View>
   );
 };
@@ -34,7 +43,18 @@ const styles = StyleSheet.create({
     borderColor: Colors.blue10,
     borderBottomWidth: 1,
   },
-  error: {},
+  placeholderText: {
+    position: 'absolute',
+    top: 0,
+    fontSize: _WIDTH / 50,
+  },
+  errorText: {
+    position: 'absolute',
+    top: 35,
+    color: Colors.red10,
+    fontSize: _WIDTH / 34,
+    fontFamily: 'Cafe24Dangdanghae-v2.0',
+  },
 });
 
 export default InputField;
