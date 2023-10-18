@@ -159,40 +159,6 @@ const BrandFormScreen = ({navigation, route}: BrandFormScreenProps) => {
             error={brandForm.error.content}
             focused={brandForm.focused.content}
           />
-          {/* <TextInput
-            style={[styles.textInput, focused ? styles.inputFocused : null]}
-            onChangeText={text => handleChangeText('name', text)}
-            placeholder="불매할 브랜드를 입력해주세요*"
-            placeholderTextColor="#666"
-            value={values.name}
-            returnKeyType="next"
-            clearButtonMode="while-editing"
-            ref={brandRef}
-            onSubmitEditing={() => reasonRef.current?.focus()}
-            blurOnSubmit={false}
-            onFocus={() => handleFocus('name')}
-            onBlur={() => handleBlur('name')}
-            multiline={true}
-            numberOfLines={1}
-          /> */}
-          {/* <TextInput
-            style={[styles.input, focused ? styles.inputFocused : null]}
-            onChangeText={text => handleChangeText('content', text)}
-            placeholder="등록 사유를 입력해주세요"
-            placeholderTextColor="#666"
-            value={values.content}
-            returnKeyType="next"
-            clearButtonMode="while-editing"
-            ref={reasonRef}
-            onSubmitEditing={onSubmit}
-            blurOnSubmit={false}
-            onFocus={() => handleFocus('content')}
-            onBlur={() => handleBlur('content')}
-            // 자동 줄바꿈
-            multiline={true}
-            // 디폴트 1줄로 첨에 보임
-            numberOfLines={1}
-          /> */}
           <View style={styles.buttonWrapper}>
             <Pressable
               style={({pressed}) => [
