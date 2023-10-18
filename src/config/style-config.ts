@@ -75,8 +75,8 @@ export const globalStyles = StyleSheet.create({
   mainBlock: {
     flex: 1,
     backgroundColor: Colors.gray90,
-    borderWidth: 1,
-    borderColor: 'red',
+    // borderWidth: 1,
+    // borderColor: 'red',
     alignItems: 'center',
   },
 
