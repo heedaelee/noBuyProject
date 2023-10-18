@@ -34,9 +34,7 @@ const BrandFormScreen = ({navigation, route}: BrandFormScreenProps) => {
   }, [navigation]);
 
   const [loading, setLoading] = useState(false);
-
-  const brandRef = useRef<TextInput | null>(null);
-  const reasonRef = useRef<TextInput | null>(null);
+  const contentRef = useRef<TextInput | null>(null);
   const [brandValue, setBrandValue] = useRecoilState(BrandListState);
 
   const {brandList, page, selectedI} = brandValue;
@@ -50,24 +48,6 @@ const BrandFormScreen = ({navigation, route}: BrandFormScreenProps) => {
     });
   }
   const brandForm = useForm(initialValue);
-
-  /* NOTE:백업 */
-  // page === 'editor' &&
-  //   selectedI !== '-1' &&
-  //   brandList.forEach((v, i) => {
-  //     if (v.id === selectedI) {
-  //       brandForm = useForm({name: v.name, content: v.content});
-  //     }
-  //   });
-  /* useEffect(() => {
-    page === 'editor' &&
-      selectedI !== '-1' &&
-      brandList.forEach((v, i) => {
-        if (v.id === selectedI) {
-          brandForm({name: v.name, content: v.content});
-        }
-      });
-  }, [brandList, page, selectedI]); */
 
   /**
    * 취소 버튼 클릭시
@@ -153,11 +133,13 @@ const BrandFormScreen = ({navigation, route}: BrandFormScreenProps) => {
             placeholderTextColor="#666"
             returnKeyType="next"
             clearButtonMode="while-editing"
-            // ref={brandRef}
-            onSubmitEditing={() => reasonRef.current?.focus()}
+            /* 완료 누를때 동작 핸들러 */
+            onSubmitEditing={() => {
+              contentRef.current?.focus();
+            }}
             blurOnSubmit={false}
-            multiline={true} // 자동 줄바꿈
             numberOfLines={1} // 디폴트 1줄로 첨에 보임
+            maxLength={21}
             {...brandForm.getTextInputProps('name')}
             error={brandForm.error.name}
             focused={brandForm.focused.name}
@@ -165,18 +147,18 @@ const BrandFormScreen = ({navigation, route}: BrandFormScreenProps) => {
           <InputField
             placeholder="등록 사유를 입력해주세요"
             placeholderTextColor="#666"
-            returnKeyType="next"
+            returnKeyType="send"
             clearButtonMode="while-editing"
-            // ref={reasonRef}
+            ref={contentRef}
             onSubmitEditing={onSubmit}
             blurOnSubmit={false}
             multiline={true}
+            maxLength={41}
             numberOfLines={1}
             {...brandForm.getTextInputProps('content')}
             error={brandForm.error.content}
             focused={brandForm.focused.content}
           />
-
           {/* <TextInput
             style={[styles.textInput, focused ? styles.inputFocused : null]}
             onChangeText={text => handleChangeText('name', text)}
