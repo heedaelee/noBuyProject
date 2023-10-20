@@ -72,6 +72,30 @@ const BrandFormScreen = ({navigation}: BrandFormScreenProps) => {
     navigation.goBack();
   }, [navigation]);
   /**
+   * 삭제 버튼 클릭시
+   */
+  const onDelete = useCallback(async () => {
+    /* TODO: 삭제 여부 모달 */
+    Alert.alert(`test`);
+    if (loading) {
+      return;
+    }
+    try {
+      /* 로직 */
+      const newBrandValue = {
+        ...brandValue,
+        brandList: brandValue.brandList.filter(v => v.id !== selectedI),
+      };
+      setBrandValue(newBrandValue);
+      setLoading(true);
+    } catch (error) {
+      Alert.alert(`에러 : ${error}`);
+    } finally {
+      setLoading(false);
+      navigation.navigate('HomeScreen');
+    }
+  }, [brandValue, loading, navigation, selectedI, setBrandValue]);
+  /**
    * 등록 버튼 클릭시
    */
   const onSubmit = useCallback(async () => {
@@ -107,8 +131,8 @@ const BrandFormScreen = ({navigation}: BrandFormScreenProps) => {
           ),
         };
       }
-      console.log(JSON.stringify(newBrandValue));
-      // console.log('setBrandValue호출');
+      // 체크
+      // console.log(JSON.stringify(newBrandValue));
       setBrandValue(newBrandValue);
     } catch (error) {
       Alert.alert(`에러 : ${error}`);
@@ -173,6 +197,17 @@ const BrandFormScreen = ({navigation}: BrandFormScreenProps) => {
             focused={brandForm.focused.content}
           />
           <View style={styles().buttonWrapper}>
+            <Pressable
+              style={({pressed}) => [
+                {
+                  backgroundColor: pressed ? Colors.gray60 : 'white',
+                  // marginRight: 10,
+                },
+                styles().button,
+              ]}
+              onPress={onDelete}>
+              <Text style={styles().buttonText}>삭제</Text>
+            </Pressable>
             <Pressable
               style={({pressed}) => [
                 {
