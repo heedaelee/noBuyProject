@@ -197,17 +197,20 @@ const BrandFormScreen = ({navigation}: BrandFormScreenProps) => {
             focused={brandForm.focused.content}
           />
           <View style={styles().buttonWrapper}>
-            <Pressable
-              style={({pressed}) => [
-                {
-                  backgroundColor: pressed ? Colors.gray60 : 'white',
-                  // marginRight: 10,
-                },
-                styles().button,
-              ]}
-              onPress={onDelete}>
-              <Text style={styles().buttonText}>삭제</Text>
-            </Pressable>
+            {page === 'editor' && (
+              <Pressable
+                style={({pressed}) => [
+                  {
+                    backgroundColor: pressed ? Colors.gray60 : 'white',
+                    // marginRight: 10,
+                  },
+                  styles().button,
+                ]}
+                onPress={onDelete}>
+                <Text style={styles().buttonText}>삭제</Text>
+              </Pressable>
+            )}
+
             <Pressable
               style={({pressed}) => [
                 {
