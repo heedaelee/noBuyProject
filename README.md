@@ -55,7 +55,7 @@ yarn start
 yarn ios || yarn android
 ```
 
-### 폰트 (TODO)
+### 폰트 (?)
 ```shell
 ./assets/fonts 폴더에 폰트 파일 추가 (ttf, otf 확장자만 가능)
 npx react-native-assets
@@ -68,6 +68,16 @@ Watchman - watchman watch-del-all
 Android - cd android && ./gradlew clean && cd ..
 iOS - cd ios && pod deintegrate && pod cache clean -all && rm -rf Podfile.lock && cd ..
 ```
+
+## Log convention
+데이터 체크 주석은 /* 체크 */로 기록
+
+## GIT convention
+feat: 🐲 새로운 기능을 추가
+fix: 🐒 버그 수정
+refactor: ♻️ 코드 리팩토링
+Design: 💄 CSS 등 사용자 UI 디자인 변경
+Docs: 📜 문서 및 코멘트 수정 
 
 ## GIT Flow (for Ex)
   

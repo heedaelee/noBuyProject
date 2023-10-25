@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 
 export const Colors = {
   black: '#000',
@@ -12,7 +12,11 @@ export const Colors = {
   gray60: '#C0C6CC',
   gray70: '#DDE0E5',
   gray80: '#E6E9ED',
-  gray90: '#F4F6F9',
+  gray90: '#f8f8f8',
+
+  blue10: '#3f51b5',
+
+  red10: '#faa1a1',
 };
 
 export const ColorBase = {
@@ -44,13 +48,54 @@ export const ColorContents = {
   tooltipBg: '#393D40',
 };
 
+const backgroundColor = '#ffffff';
+
+export const BoxShadow = {
+  shadowColor: '#000',
+  shadowOffset: {
+    width: 0,
+    height: 3,
+  },
+  shadowOpacity: 0.27,
+  shadowRadius: 10,
+  elevation: 6,
+  backgroundColor: backgroundColor,
+  borderRadius: 10,
+};
+
+export const _WIDTH = Dimensions.get('window').width;
+export const _HEIGHT = Dimensions.get('window').height;
+
 export const globalStyles = StyleSheet.create({
   titleText: {
     fontFamily: 'Cafe24Dangdanghae-v2.0',
     color: 'black',
     fontSize: 30,
   },
-  /* paragraph: {
-    fontSize: 18,
-  }, */
+  mainBlock: {
+    flex: 1,
+    backgroundColor: Colors.gray90,
+    // borderWidth: 1,
+    // borderColor: 'red',
+    alignItems: 'center',
+  },
+
+  titleView: {
+    marginTop: 20,
+    width: '80%',
+    padding: 8,
+    // borderWidth: 1,
+    // borderColor: 'green',
+    alignItems: 'center',
+    ...BoxShadow,
+  },
+  contentView: {
+    width: _WIDTH * 0.8,
+    flexDirection: 'row',
+    padding: 10,
+    // borderWidth: 1,
+    // borderColor: 'green',
+    justifyContent: 'center',
+    ...BoxShadow,
+  },
 });

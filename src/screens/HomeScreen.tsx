@@ -1,54 +1,55 @@
-import React, {useLayoutEffect} from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import type {HomeTabScreenProps} from 'types/navigation';
+import {useRecoilState} from 'recoil';
 
-import {headerConfig} from 'config/native-config';
-import {Colors, globalStyles} from 'config/style-config';
-import Config from 'react-native-config';
+import {CircleButton} from 'components/Button';
+import {globalStyles} from 'config/style-config';
+import {useRouteLog} from 'hooks/use-routeLog';
+import type {HomeTabScreenProps} from 'types/navigation';
+import BrandList from 'components/BrandList';
+import {BrandListState} from 'store/brand-list';
 
 type RouteProps = HomeTabScreenProps<'HomeScreen'>;
 
 export interface HomeScreenProps extends RouteProps {}
 
 const HomeScreen = ({navigation, route}: HomeScreenProps) => {
-  console.log('홈스크린');
+  useRouteLog('홈스크린');
   /* 헤더 삭제함.  */
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      ...headerConfig,
-      headerTitle: '',
-      headerTransparent: true,
-    });
-  }, [navigation]);
+  // useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     ...headerConfig,
+  //     headerTitle: test,
+  //     headerTransparent: true,
+  //   });
+  // }, [navigation]);
 
-  /* TODO: 글꼴 당당해 체 로 변경
-   */
+  const [initialState, setInitialState] = useRecoilState(BrandListState);
+
+  useEffect(() => {}, []);
+
+  const goToAddBrand = () => {
+    setInitialState({...initialState, page: 'register'});
+    navigation.navigate('BrandFormScreen');
+  };
 
   return (
     <View style={styles.block}>
       <View style={styles.titleView}>
-        <Text style={styles.titleText}>브랜드 리스트</Text>
-        <Text>url : {Config.API_URL}</Text>
+        <Text style={styles.titleText}>불매 브랜드 리스트</Text>
+        {/* <Text>url : {Config.API_URL}</Text> */}
       </View>
+      {/* 브랜드 리스트 시작 */}
+      <BrandList />
+      {/* 브랜드 리스트 끝 */}
+      <CircleButton onPress={goToAddBrand}>+</CircleButton>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  block: {
-    flex: 1,
-    backgroundColor: Colors.white,
-    borderWidth: 1,
-    borderColor: 'red',
-    paddingTop: 50,
-    alignItems: 'center',
-  },
-  titleView: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: 'green',
-    alignItems: 'center',
-  },
+  block: globalStyles.mainBlock,
+  titleView: globalStyles.titleView,
   titleText: globalStyles.titleText,
 });
 
