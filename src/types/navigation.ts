@@ -26,7 +26,6 @@ export type RootStackParamList = BottomTabParamList &
   };
 
 export type BottomTabParamList = {
-  // HomeNavigator: NavigatorScreenParams<HomeTabParamList>;
   HomeNavigator: NavigatorScreenParams<HomeTabParamList>;
 };
 /**
