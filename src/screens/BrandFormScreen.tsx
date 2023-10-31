@@ -14,7 +14,7 @@ import DismissKeyboardView from 'components/DismissKeyBoardView';
 import {BackButton} from 'components/Headers';
 import InputField from 'components/InputField';
 import {Colors, _WIDTH, globalStyles} from 'config/style-config';
-import useForm from 'hooks/use-form';
+import useForm from 'hooks/useForm';
 import {BrandListState} from 'store/brand-list';
 import {HomeTabScreenProps} from 'types/navigation';
 
@@ -76,6 +76,7 @@ const BrandFormScreen = ({navigation}: BrandFormScreenProps) => {
    */
   const onDelete = useCallback(async () => {
     /* TODO: 삭제 여부 모달 */
+
     Alert.alert(`test`);
     if (loading) {
       return;

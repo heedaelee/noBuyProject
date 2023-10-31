@@ -4,7 +4,7 @@ import {useRecoilState} from 'recoil';
 
 import {CircleButton} from 'components/Button';
 import {globalStyles} from 'config/style-config';
-import {useRouteLog} from 'hooks/use-routeLog';
+import {useRouteLog} from 'hooks/useRouteLog';
 import type {HomeTabScreenProps} from 'types/navigation';
 import BrandList from 'components/BrandList';
 import {BrandListState} from 'store/brand-list';
