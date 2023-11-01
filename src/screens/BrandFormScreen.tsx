@@ -17,6 +17,8 @@ import {Colors, _WIDTH, globalStyles} from 'config/style-config';
 import useForm from 'hooks/useForm';
 import {BrandListState} from 'store/brand-list';
 import {HomeTabScreenProps} from 'types/navigation';
+import useModals from 'hooks/useModals';
+import {modals} from 'components/Modals/Modals';
 
 type RouteProps = HomeTabScreenProps<'BrandFormScreen'>;
 
@@ -36,6 +38,7 @@ const BrandFormScreen = ({navigation}: BrandFormScreenProps) => {
   const [loading, setLoading] = useState(false);
   const contentRef = useRef<TextInput | null>(null);
   const [brandValue, setBrandValue] = useRecoilState(BrandListState);
+  const {openModal, closeModal} = useModals();
 
   const {brandList, page, selectedI} = brandValue;
 
@@ -71,16 +74,8 @@ const BrandFormScreen = ({navigation}: BrandFormScreenProps) => {
   const goBack = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
-  /**
-   * 삭제 버튼 클릭시
-   */
-  const onDelete = useCallback(async () => {
-    /* TODO: 삭제 여부 모달 */
 
-    Alert.alert(`test`);
-    if (loading) {
-      return;
-    }
+  const onDelete = useCallback(async () => {
     try {
       /* 로직 */
       const newBrandValue = {
@@ -95,7 +90,26 @@ const BrandFormScreen = ({navigation}: BrandFormScreenProps) => {
       setLoading(false);
       navigation.navigate('HomeScreen');
     }
-  }, [brandValue, loading, navigation, selectedI, setBrandValue]);
+  }, [brandValue, navigation, selectedI, setBrandValue]);
+
+  /**
+   * 삭제 버튼 클릭시
+   */
+  const handleDelete = useCallback(() => {
+    if (loading) {
+      return;
+    }
+    /* TODO: 삭제 여부 모달 */
+    openModal(modals.confirm, {
+      message: '삭제하시겠습니까?',
+      onConfirmButtonClick: () => {
+        // 지원_비즈니스_로직();
+        closeModal(modals.confirm);
+        onDelete();
+      },
+      onCancelButtonClick: () => closeModal(modals.confirm),
+    });
+  }, [closeModal, loading, onDelete, openModal]);
   /**
    * 등록 버튼 클릭시
    */
@@ -207,11 +221,10 @@ const BrandFormScreen = ({navigation}: BrandFormScreenProps) => {
                   },
                   styles().button,
                 ]}
-                onPress={onDelete}>
+                onPress={handleDelete}>
                 <Text style={styles().buttonText}>삭제</Text>
               </Pressable>
             )}
-
             <Pressable
               style={({pressed}) => [
                 {
