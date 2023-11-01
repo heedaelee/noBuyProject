@@ -1,28 +1,22 @@
-import React, {useState} from 'react';
-import ConfirmModal from './ConfirmModal';
-import {ModalProps} from 'react-native';
+import React from 'react';
+
 import useModals from 'hooks/useModals';
+import ConfirmModal from './ConfirmModal';
 
-interface ModalsProps {}
+/* 사용할 모달 컴포넌트들을 담은 Object */
+export const modals = {
+  confirm: ConfirmModal,
+};
 
-/* TODO: 수정해야 */
-const Modals = ({}: ModalProps) => {
-  const {modals, closeModal} = useModals();
-
-  //모달이 열려서 확인버튼을 눌러을때 처리하는 로직
-  const handleClickConfirmButton = () => {
-    //비지니스 로직
-    closeModal();
-  };
-
+const Modals = () => {
+  const {modals} = useModals();
   return (
     <>
-      <ConfirmModal
-        message="삭제하시겠습니까?"
-        open={modalOpenState}
-        onClose={closeModal}
-        onConfirmButtonClick={handleClickConfirmButton}
-      />
+      {modals.map(({Component, props}, idx) => {
+        return <Component key={idx} {...props} />;
+      })}
     </>
   );
 };
+
+export default Modals;
