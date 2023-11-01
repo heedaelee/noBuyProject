@@ -6,13 +6,13 @@ interface ModalProps {
   open: boolean;
   onConfirmButtonClick: () => void;
   message: string;
-  onClose: () => void;
+  onCancelButtonClick: () => void;
 }
 
 const ConfirmModal = ({
   open,
   onConfirmButtonClick,
-  onClose,
+  onCancelButtonClick,
   message,
 }: ModalProps) => {
   // const [isModalVisible, setModalVisible] = useState(false);
@@ -20,11 +20,11 @@ const ConfirmModal = ({
   const handleConfirm = () => {
     //Perform the confirmation action
     onConfirmButtonClick();
-    onClose();
+    onCancelButtonClick();
   };
   const handleCancel = () => {
     //Handle the cancellation
-    onClose();
+    onCancelButtonClick();
   };
 
   return (
