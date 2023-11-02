@@ -3,7 +3,6 @@ import {Dimensions, StyleSheet} from 'react-native';
 export const Colors = {
   black: '#000',
   white: '#FFF',
-
   gray10: '#1E2427',
   gray20: '#31373C',
   gray30: '#555B61',
@@ -13,9 +12,7 @@ export const Colors = {
   gray70: '#DDE0E5',
   gray80: '#E6E9ED',
   gray90: '#f8f8f8',
-
   blue10: '#3f51b5',
-
   red10: '#faa1a1',
 };
 
