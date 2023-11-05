@@ -101,7 +101,7 @@ const BrandFormScreen = ({navigation}: BrandFormScreenProps) => {
     }
     /* TODO: 삭제 여부 모달 */
     openModal(modals.confirm, {
-      message: '삭제하시겠습니까?',
+      message: '해당 게시물을\n삭제하시겠습니까?',
       onConfirmButtonClick: () => {
         // 지원_비즈니스_로직();
         closeModal(modals.confirm);

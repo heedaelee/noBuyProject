@@ -32,13 +32,13 @@ const ConfirmModal = ({
     <Modal isVisible={open}>
       <View style={styles.modalView}>
         <View style={styles.textView}>
-          <Text>{message}</Text>
+          <Text style={styles.modalMessageText}>{message}</Text>
         </View>
-        <View style={styles.buttonView}>
+        <View style={styles.buttonsView}>
           <Pressable style={styles.buttonPressable} onPress={handleCancel}>
             <Text style={styles.buttonText}>취소</Text>
           </Pressable>
-          <Pressable style={styles.buttonPressable} onPress={handleConfirm}>
+          <Pressable style={styles.OkButtonPressable} onPress={handleConfirm}>
             <Text style={styles.buttonText}>확인</Text>
           </Pressable>
         </View>
@@ -59,14 +59,12 @@ const styles = StyleSheet.create({
   },
   textView: {
     flex: 4,
-    borderWidth: 1,
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  buttonView: {
+  buttonsView: {
     flex: 1,
-    borderWidth: 1,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'center',
@@ -74,10 +72,16 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   buttonPressable: {
+    ...globalStyles.buttonPressable,
+  },
+  OkButtonPressable: {
+    ...globalStyles.buttonPressable,
     backgroundColor: Colors.gray20,
-    paddingVertical: 10,
-    borderRadius: 3,
-    flex: 1,
+  },
+  modalMessageText: {
+    fontSize: 20,
+    textAlign: 'center',
+    fontFamily: 'Cafe24Dangdanghae-v2.0',
   },
   buttonText: {
     textAlign: 'center',

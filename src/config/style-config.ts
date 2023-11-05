@@ -95,4 +95,12 @@ export const globalStyles = StyleSheet.create({
     justifyContent: 'center',
     ...BoxShadow,
   },
+  buttonPressable: {
+    width: '100%',
+    backgroundColor: Colors.gray40,
+    marginHorizontal: 2,
+    justifyContent: 'center',
+    borderRadius: 3,
+    flex: 1,
+  },
 });
