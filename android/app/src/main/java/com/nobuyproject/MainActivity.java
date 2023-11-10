@@ -1,6 +1,8 @@
 package com.nobuyproject;
 
+import android.os.Bundle; // 11/8 splash 추가
 import com.facebook.react.ReactActivity;
+import org.devio.rn.splashscreen.SplashScreen; // 11/8 splash 추가
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactActivityDelegate;
@@ -36,6 +38,7 @@ public class MainActivity extends ReactActivity {
   /* 네비게이션 */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    SplashScreen.show(this);  // 11/8 splash 추가
     super.onCreate(null);
 }
 }
